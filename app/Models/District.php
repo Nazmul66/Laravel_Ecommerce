@@ -9,6 +9,11 @@ class District extends Model
 {
     use HasFactory;
 
+    public function state()
+    {
+        return $this->belongsTo(State::class);
+    }
+
     protected $fillable = [
         'name',
         'state_id',

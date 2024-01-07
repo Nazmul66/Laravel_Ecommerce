@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\State;
 use App\Models\Country;
+use App\Models\State;
 
 class StateController extends Controller
 {
@@ -14,7 +14,9 @@ class StateController extends Controller
      */
     public function manage()
     {
-        $states = State::orderBy("name", "asc")->where('status','=','1')->get();
+        // NOTE: this is call manual system to get name data, pass the $countries data and compact the data 
+        // $countries  = Country::orderBy("name", "asc")->where('status','=','1')->get();
+        $states     = State::orderBy("name", "asc")->where('status','=','1')->get();
         return view('backend.pages.state.manage', compact("states"));
     }
 
@@ -81,6 +83,8 @@ class StateController extends Controller
 
     public function trashManager()
     {
+        // NOTE: this is call manual system to get name data, pass the $countries data and compact the data 
+        // $countries  = Country::orderBy("name", "asc")->where('status','=','1')->get();
         $states = State::orderBy("name", "asc")->where('status','=','2')->get();
         return view('backend.pages.state.trash-manage', compact("states"));
     }

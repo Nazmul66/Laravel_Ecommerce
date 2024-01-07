@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('brands', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
+            $table->string('slug')->nullable();
             $table->text('description')->nullable();
             $table->unsignedInteger('status')->default(1)->comment("1=active, 2=inactive");
             $table->text('image')->nullable();

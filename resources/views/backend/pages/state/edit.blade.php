@@ -5,7 +5,7 @@
 @endsection
 
 @section('css')
-    
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 @endsection
 
 
@@ -34,12 +34,13 @@
 
                         <div class="mb-3">
                           <label for="" class="form-label">Country Name</label>
-                            <select class="form-select" name="country_id" required="required" value="{{ $state->country_id }}">
+                            <select class="selection form-select" name="country_id" required="required" value="{{ $state->country_id }}">
                               <option selected disabled>Please select the country</option>
-                               @foreach ( $countries as $country )
-                                   <option value="{{ $country->id }}" @if( $state->country_id == $country->id ) selected @endif>{{ $country->name }}</option>
-                               @endforeach
+                              @foreach ( $countries as $country )
+                                  <option value="{{ $country->id }}" @if( $state->country_id == $country->id ) selected @endif>{{ $country->name }}</option>
+                              @endforeach
                             </select>
+                          </select>
                         </div>
 
                         <div class="mb-3">
@@ -71,5 +72,10 @@
 
 
 @section('script')
-    
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      $('.selection').select2();
+    });
+  </script>
 @endsection

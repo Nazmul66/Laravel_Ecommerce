@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
+            $table->string('slug')->nullable();
             $table->text('description')->nullable();
             $table->integer('is_parent')->default(0)->comment('0=primary category');
             $table->unsignedInteger('status')->default(1)->comment('1=active, 2=inactive');

@@ -31,13 +31,10 @@ class CountryController extends Controller
      */
     public function store(Request $request)
     {
-        $name    = $request->name;
-        $status  = $request->status;
-
         $country = new Country();
-        $country->name = $name;
-        $country->slug = Str::slug($name);
-        $country->status = $status;
+        $country->name =  $request->name;
+        $country->slug = Str::slug($request->name);
+        $country->status = $request->status;
 
         // dd($country);  
         $country->save();

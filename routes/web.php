@@ -64,23 +64,27 @@ Route::group(['prefix'=>'/admin'], function(){
 
    // Brand
     Route::group(['prefix'=>'/brand'], function(){
-        Route::get('/manage', [BrandController::class, "index"])->name('brand.manage');
+        Route::get('/manage', [BrandController::class, "manage"])->name('brand.manage');
         Route::get('/create', [BrandController::class, "create"])->name('brand.create');
         Route::post('/store', [BrandController::class, "store"])->name('brand.store');
         Route::get('/edit/{id}', [BrandController::class, "edit"])->name('brand.edit');
         Route::post('/update/{id}', [BrandController::class, "update"])->name('brand.update');
         Route::get('/destroy/{id}', [BrandController::class, "destroy"])->name('brand.destroy');
+        Route::get('/trash/{id}', [BrandController::class, "trash"])->name('brand.trash');
+        Route::get('/trash-manager', [BrandController::class, "trashManager"])->name('brand.trash-manager');
     });
 
 
     // Category
     Route::group(['prefix'=>'/category'], function(){
-        Route::get('/manage', [CategoryController::class, "index"])->name('category.manage');
+        Route::get('/manage', [CategoryController::class, "manage"])->name('category.manage');
         Route::get('/create', [CategoryController::class, "create"])->name('category.create');
         Route::post('/store', [CategoryController::class, "store"])->name('category.store');
         Route::get('/edit/{id}', [CategoryController::class, "edit"])->name('category.edit');
         Route::post('/update/{id}', [CategoryController::class, "update"])->name('category.update');
         Route::get('/destroy/{id}', [CategoryController::class, "destroy"])->name('category.destroy');
+        Route::get('/trash/{id}', [CategoryController::class, "trash"])->name('category.trash');
+        Route::get('/trash-manager', [CategoryController::class, "trashManager"])->name('category.trash-manager');
     });
 
 

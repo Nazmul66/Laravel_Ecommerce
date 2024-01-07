@@ -13,9 +13,10 @@ class DistrictController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function manage()
     {
-        return view();
+        $districts = District::orderBy("name", "asc")->where('status','=','1')->get();
+        return view('backend.pages.district.manage', compact('districts'));
     }
 
     /**
@@ -23,7 +24,8 @@ class DistrictController extends Controller
      */
     public function create()
     {
-        return view();
+        $states = State::orderBy("name", "asc")->where('status','=','1')->get();
+        return view('backend.pages.district.create', compact('states'));
     }
 
     /**
@@ -31,15 +33,14 @@ class DistrictController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
+        $districts = new District();
+        $districts->name           = $request->name;
+        $districts->state_id       = $request->state_id;
+        $districts->status         = $request->status;
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
+        // dd($districts);  
+        $districts->save();
+        return redirect()->route('district.manage');
     }
 
     /**
@@ -47,7 +48,35 @@ class DistrictController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $district = District::find($id);
+        
+        if( !is_null($district) ){
+            $states = State::orderBy("name", "asc")->where('status','=','1')->get();
+            return view('backend.pages.district.edit', compact('states','district'));
+        }
+    }
+
+
+    /**
+     * Show all data into trash Management
+     */
+    public function trashManager()
+    {
+        $districts = District::orderBy("name", "asc")->where('status','=','2')->get();
+        return view('backend.pages.district.trash-manage', compact("districts"));
+    }
+    
+    /**
+     * Permanently delete all data from the form
+     */
+    public function trash(string $id)
+    {
+        $district = District::find($id);
+        if( !is_null($district) ){
+            $district->delete();
+
+            return redirect()->route('district.trash-manager'); 
+        }
     }
 
     /**
@@ -55,7 +84,17 @@ class DistrictController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $district = District::find($id);
+        
+        if( !is_null($district) ){
+            $district->name          = $request->name;
+            $district->state_id      = $request->state_id;
+            $district->status        = $request->status;
+            
+            // dd($district); 
+            $district->save();
+            return redirect()->route('district.manage'); 
+        }
     }
 
     /**
@@ -63,6 +102,12 @@ class DistrictController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $district = District::find($id);
+        if( !is_null($district) ){
+            $district->status = 2;
+            $district->save();
+
+            return redirect()->route('district.manage'); 
+        }
     }
 }

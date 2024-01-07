@@ -31,10 +31,10 @@
 					</a>
 					<ul>
 						<li> 
-							<a href="{{ route('brand.manage') }}"><i class="bx bx-right-arrow-alt"></i>Manage Brands</a>
+							<a href="{{ route('brand.create') }}"><i class="bx bx-right-arrow-alt"></i>Add New Brand</a>
 						</li>
 						<li> 
-							<a href="{{ route('brand.create') }}"><i class="bx bx-right-arrow-alt"></i>Add New Brand</a>
+							<a href="{{ route('brand.manage') }}"><i class="bx bx-right-arrow-alt"></i>Manage Brands</a>
 						</li>
 					</ul>
 				</li>
@@ -48,10 +48,10 @@
 					</a>
 					<ul>
 						<li> 
-							<a href="{{ route('category.manage') }}"><i class="bx bx-right-arrow-alt"></i>Manage Category</a>
+							<a href="{{ route('category.create') }}"><i class="bx bx-right-arrow-alt"></i>Add New Category</a>
 						</li>
 						<li> 
-							<a href="{{ route('category.create') }}"><i class="bx bx-right-arrow-alt"></i>Add New Category</a>
+							<a href="{{ route('category.manage') }}"><i class="bx bx-right-arrow-alt"></i>Manage Category</a>
 						</li>
 					</ul>
 				</li>
@@ -172,7 +172,24 @@
 						</li>
 					</ul>
 				</li>
-
+				
+				<!-- State Menu Items -->
+				<li>
+					<a href="javascript:;" class="has-arrow">
+						<div class="parent-icon"><i class='bx bx-store-alt'></i>
+						</div>
+						<div class="menu-title">State</div>
+					</a>
+					<ul>
+						<li> 
+							<a href="{{ route('state.create') }}"><i class="bx bx-right-arrow-alt"></i>Add New State</a>
+						</li>
+						<li> 
+							<a href="{{ route('state.manage') }}"><i class="bx bx-right-arrow-alt"></i>Manage States</a>
+						</li>
+					</ul>
+				</li>
+				
 				<!-- District Menu Items -->
 				<li>
 					<a href="javascript:;" class="has-arrow">
@@ -190,22 +207,6 @@
 					</ul>
 				</li>
 
-				<!-- State Menu Items -->
-				<li>
-					<a href="javascript:;" class="has-arrow">
-						<div class="parent-icon"><i class='bx bx-store-alt'></i>
-						</div>
-						<div class="menu-title">State</div>
-					</a>
-					<ul>
-						<li> 
-							<a href="{{ route('state.create') }}"><i class="bx bx-right-arrow-alt"></i>Add New State</a>
-						</li>
-						<li> 
-							<a href="{{ route('state.manage') }}"><i class="bx bx-right-arrow-alt"></i>Manage States</a>
-						</li>
-					</ul>
-				</li>
 
 
 				<li class="menu-label">Platform Setting</li>

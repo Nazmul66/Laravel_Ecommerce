@@ -50,7 +50,17 @@
                                 <tr>
                                     <th scope="row">{{ $sl }}</th>
                                     <td>{{ $state->name}}</td>
-                                    <td>{{ $state->country_id }}</td>
+                                    <td>{{ $state->country->name }}</td>
+
+                                    {{-- NOTE: this is call manual system to get name data --}}
+                                    {{-- <td>
+                                        @foreach ($countries as $country)
+                                            @if ($country->id == $state->country_id)
+                                               {{ $country->name }}
+                                            @endif
+                                        @endforeach
+                                    </td> --}}
+
                                     <td>{{ $state->priority_number }}</td>
                                     <td>
                                        @if( $state->status == 1 )
