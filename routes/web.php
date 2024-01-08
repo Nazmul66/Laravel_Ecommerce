@@ -14,6 +14,7 @@ use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\CountryController;
 use App\Http\Controllers\Backend\DistrictController;
 use App\Http\Controllers\Backend\StateController;
+use App\Http\Controllers\Backend\ProductController;
 
 
 
@@ -60,7 +61,9 @@ Route::get('/my-profile', [dashboardController::class, 'userProfile'])->name('us
 */
 
 Route::group(['prefix'=>'/admin'], function(){
+
     Route::get('/dashboard', [AdminPageController::class, 'index'])->name('admin.dashboard');
+
 
    // Brand
     Route::group(['prefix'=>'/brand'], function(){
@@ -85,6 +88,19 @@ Route::group(['prefix'=>'/admin'], function(){
         Route::get('/destroy/{id}', [CategoryController::class, "destroy"])->name('category.destroy');
         Route::get('/trash/{id}', [CategoryController::class, "trash"])->name('category.trash');
         Route::get('/trash-manager', [CategoryController::class, "trashManager"])->name('category.trash-manager');
+    });
+
+
+    // Product
+    Route::group(['prefix'=>'/product'], function(){
+        Route::get('/manage', [ProductController::class, "manage"])->name('product.manage');
+        Route::get('/create', [ProductController::class, "create"])->name('product.create');
+        Route::post('/store', [ProductController::class, "store"])->name('product.store');
+        Route::get('/edit/{id}', [ProductController::class, "edit"])->name('product.edit');
+        Route::post('/update/{id}', [ProductController::class, "update"])->name('product.update');
+        Route::get('/destroy/{id}', [ProductController::class, "destroy"])->name('product.destroy');
+        Route::get('/trash/{id}', [ProductController::class, "trash"])->name('product.trash');
+        Route::get('/trash-manager', [ProductController::class, "trashManager"])->name('product.trash-manager');
     });
 
 

@@ -40,9 +40,9 @@
                       <div class="mb-3">
                         <label class="form-label">Parent / Child category</label>
                           <select class="form-select" name="is_parent" required='required'>
-                            <option value="0" selected>Please Select the parent category</option>
+                            <option value="0" selected>Create new parent category</option>
                             @foreach ($pCategories as $pCat)
-                                <option value="{{ $pCat->id }}">{{ $pCat->name }}</option>
+                                <option value="{{ $pCat->id }}" @if( $pCat->id == $category->is_parent ) selected @endif>{{ $pCat->name }}</option>
                             @endforeach
                           </select>
                       </div>

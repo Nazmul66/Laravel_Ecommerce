@@ -40,7 +40,7 @@
                         <div class="mb-3">
                           <label class="form-label">Parent / Child category</label>
                             <select class="form-select" name="is_parent" >
-                              <option value="0" selected>Please Select the parent category</option>
+                              <option value="0" selected>Create new parent category</option>
                               @foreach ($categories as $cat)
                                    <option value="{{ $cat->id }}">{{ $cat->name }}</option>
                               @endforeach

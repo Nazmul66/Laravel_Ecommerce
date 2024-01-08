@@ -44,16 +44,14 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @php $sl = 0; @endphp
+                                @php $sl = 1; @endphp
 
                                 @foreach ( $categories as $category )
-
-                                    @php $sl++ @endphp
 
                                 <tr>
                                     <th scope="row">{{ $sl }}</th>
                                     <td>{{ $category->image }}
-                                        @if( !is_null($category->image) )
+                                        @if( !is_null( $category->image ) )
                                            <img src="" alt="">
                                         @else
                                           <div class="alert alert-danger" role="alert">
@@ -62,7 +60,11 @@
                                         @endif
                                     </td>
                                     <td>{{ $category->name }}</td>
-                                    <td>{{ $category->is_parent }}</td>
+                                    <td>
+                                        @if ( $category->is_parent == 0)
+                                          <span class="badge bg-primary">Parent Category</span>
+                                        @endif
+                                    </td>
                                     <td>
                                         @if( $category->status == 1 )
                                         <span class="badge bg-success">Active</span>
@@ -98,6 +100,72 @@
                                     </div>
                                 </div>
                                 <!-- Modal -->
+
+                                @php $sl++ @endphp
+
+                                 <!-- sub category details start -->
+                                  @foreach ( $subCategory = App\Models\Category::orderBy('name', 'asc')->where('is_parent', $category->id)->where("status", "1")->get() as $subCat )
+                                  
+                                  <tr>
+                                    <th scope="row">{{ $sl }}</th>
+                                    <td>{{ $subCat->image }}
+                                        @if( !is_null( $subCat->image ) )
+                                           <img src="" alt="">
+                                        @else
+                                          <div class="alert alert-danger" role="alert">
+                                             Image not available    
+                                          </div>
+                                        @endif
+                                    </td>
+                                    <td>-- {{ $subCat->name }}</td>
+                                    <td>
+                                        @if ( $subCat->is_parent == 0)
+                                          <span class="badge bg-primary">Parent Category</span>
+                                        @else
+                                           <span>{{ $category->name }}</span>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if( $subCat->status == 1 )
+                                        <span class="badge bg-success">Active</span>
+                                        @elseif ( $subCat->status == 2 )
+                                        <span class="badge bg-danger">InActive</span>
+                                        @endif
+                                    </td>
+                                      <td>
+                                        <a href="{{ route('category.edit', $subCat->id) }}" class="btn btn-primary">
+                                            <i class="lni lni-pencil-alt"></i>
+                                        </a>
+                                        <button class="btn btn-danger">
+                                            <i class="lni lni-trash" data-bs-toggle="modal" data-bs-target="#subCat{{ $subCat->id }}"></i>
+                                        </button>
+                                      </td>
+                                   </tr>
+
+
+                                 <!-- Modal -->
+                                <div class="modal fade" id="subCat{{ $subCat->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                     <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5 text-center" id="exampleModalLabel">Do you want to delete this data</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+
+                                        <div class="modal-body d-flex justify-content-center mb-3 mt-3">
+                                            <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button> 
+                                            <a href="{{ route('category.destroy', $subCat->id) }}" class="btn btn-danger ms-3">Confirm</a>
+                                        </div>
+                                     </div>
+                                    </div>
+                                </div>
+                                <!-- Modal -->
+
+                                <!-- sub category details end -->
+
+                                   @php $sl++ @endphp
+
+                                @endforeach
     
                                 @endforeach
                             </tbody>

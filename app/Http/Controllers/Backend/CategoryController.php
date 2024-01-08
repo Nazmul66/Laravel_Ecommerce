@@ -15,7 +15,7 @@ class CategoryController extends Controller
      */
     public function manage()
     {
-        $categories = Category::orderBy('name', 'asc')->where('status', '=' , '1')->get();
+        $categories = Category::orderBy('name', 'asc')->where('is_parent', '=', "0")->where('status', '=' , '1')->get();
         return view('backend.pages.category.manage', compact('categories'));
     }
 
@@ -24,7 +24,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        $categories = Category::orderBy('name', 'asc')->where('status', '=' , '1')->get();
+        $categories = Category::orderBy('name', 'asc')->where('is_parent', '=', "0")->where('status', '=' , '1')->get();
         return view('backend.pages.category.create', compact('categories'));
     }
 
@@ -56,7 +56,7 @@ class CategoryController extends Controller
         $category = Category::find($id);
         
         if( !is_null( $category ) ){
-            $pCategories = Category::orderBy('name', 'asc')->where('status', '=' , '1')->get();
+            $pCategories = Category::orderBy('name', 'asc')->where('is_parent', '=', "0")->where('status', '=' , '1')->get();
             return view('backend.pages.category.edit', compact('category', 'pCategories'));
         }
     }

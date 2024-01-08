@@ -65,10 +65,10 @@
 					</a>
 					<ul>
 						<li> 
-							<a href="app-emailbox.html"><i class="bx bx-right-arrow-alt"></i>Manage Product</a>
+							<a href="{{ route('product.create') }}"><i class="bx bx-right-arrow-alt"></i>Add New Product</a>
 						</li>
 						<li> 
-							<a href="app-chat-box.html"><i class="bx bx-right-arrow-alt"></i>Add New Product</a>
+							<a href="{{ route('product.manage') }}"><i class="bx bx-right-arrow-alt"></i>Manage Product</a>
 						</li>
 					</ul>
 				</li>
