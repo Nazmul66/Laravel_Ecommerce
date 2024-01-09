@@ -56,8 +56,20 @@
                                     <td>{{ $product->sku_code }}</td>
                                     <td>{{ $product->quantity }}</td>
                                     <td>{{ $product->regular_price }}</td>
-                                    <td>{{ $product->offer_price }}</td>
-                                    <td>{{ $product->is_featured }}</td>
+                                    <td>
+                                        @if ( !is_null( $product->offer_price ) )
+                                            {{ $product->offer_price }}
+                                        @else
+                                           <span class="badge rounded-pill bg-warning">-- Not Applied --</span>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if ( $product->is_featured == 1 )
+                                          <span class="badge bg-primary">Featured</span>
+                                        @else
+                                          <span class="badge bg-secondary">-- Not Featured --</span>
+                                        @endif
+                                    </td>
                                     <td>
                                        @if( $product->status == 1 )
                                         <span class="badge bg-success">Active</span>

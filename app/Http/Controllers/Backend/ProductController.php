@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Models\Category;
@@ -37,6 +38,25 @@ class ProductController extends Controller
     {
         $product = new Product();
 
+        // 2 way integrate validate system
+        $productValidate = $request->validate([
+            'title'              => 'required',
+            'brand_id'           => 'required',
+            'category_id'        => 'required',
+            'short_description'  => 'required',
+            'regular_price'      => 'required',
+            'quantity'           => 'required',
+        ]);
+
+        // $this->validate($request, [      
+        //     'title'             => 'required',
+        //     'brand_id'          => 'required',
+        //     'category_id'       => 'required',
+        //     'short_description' => 'required',
+        //     'regular_price'     => 'required',
+        //     'quantity'          => 'required',
+        // ]);
+
         $product->title             = $request->title;
         $product->slug              = Str::slug($request->title);
         $product->brand_id          = $request->brand_id;
@@ -52,10 +72,17 @@ class ProductController extends Controller
         $product->status            = $request->status;
         $product->tags              = $request->tags;
 
-        dd($product);
+        // dd($product);
 
-        // $product->save();
-        // return redirect()->route("product.manage");
+        $product->save();
+
+        $notification = array(
+            'message'    => "product has been added",
+            'alert-type' => "success"
+        );
+
+        // return redirect()->route("product.manage")->with('success', 'Product added successfully');
+        return redirect()->route("product.manage")->with($notification);
     }
 
     /**

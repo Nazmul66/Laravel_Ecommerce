@@ -16,7 +16,7 @@
 <div class="page-content">
 
   <!--breadcrumb-->
-  <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+  {{-- <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
     <div class="breadcrumb-title pe-3">eCommerce</div>
         <div class="ps-3">
           <nav aria-label="breadcrumb">
@@ -40,13 +40,16 @@
             </div>
           </div>
         </div>
-   </div>
+   </div> --}}
   <!--end breadcrumb-->
 
       <div class="card">
           <div class="card-body p-4">
             <h5 class="card-title">Add New Product</h5>
               <hr>
+
+              @include('backend.includes.message')
+              
               <div class="form-body mt-4">
                 <form method="post" action="{{ route('product.store') }}" enctype="multipart/form-data">
                   <div class="row">
@@ -57,17 +60,17 @@
                       <div class="border border-3 p-4 rounded">
                           <div class="mb-3">
                             <label class="form-label">Product Title</label>
-                            <input type="text" name="title" class="form-control" placeholder="Enter product title" required="required">
+                            <input type="text" name="title" class="form-control" value="{{ old('title') }}" placeholder="Enter product title" required="required">
                           </div>
   
                           <div class="mb-3">
                             <label class="form-label">Short Description</label>
-                            <textarea name="short_description" class="form-control" rows="4"></textarea>
+                            <textarea name="short_description" class="form-control" rows="4">{{ old('short_description') }}</textarea>
                           </div>
   
                           <div class="mb-3">
                             <label class="form-label">Long Description</label>
-                            <textarea name="long_description" class="form-control" rows="7"></textarea>
+                            <textarea name="long_description" class="form-control" rows="7">{{ old('long_description') }}</textarea>
                           </div>
   
                           <div class="mb-3">
@@ -82,7 +85,7 @@
                           <div class="row g-3">
                             <div class="col-12">
                               <label class="form-label">Select Brand</label>
-                              <select class="form-select" name="brand_id">
+                              <select class="form-select" name="brand_id" value="{{ old('brand_id') }}" >
                                 <option value="" selected disabled>Please select the Brand Name</option>
                                  @foreach ($brands as $brand)
                                      <option value="{{ $brand->id }}">{{ $brand->name }}</option>
@@ -92,49 +95,49 @@
 
                             <div class="col-12">
                               <label class="form-label">Select Category / Sub Category</label>
-                              <select class="form-select" name="category_id">
+                              <select class="form-select" name="category_id" value="{{ old('category_id') }}">
                                 <option value="" selected disabled>Please select Parent / Child Category</option>
                                  @foreach ( $categories as $category )
                                      <option value="{{ $category->id }}">{{ $category->name }}</option>
 
                                       <!-- sub category option field -->
-                                        @foreach ( App\Models\Category::orderBy('name', 'asc')->where('is_parent', $category->id)->where('status', 1 )->get() as $childCat )
+                                      @foreach ( App\Models\Category::orderBy('name', 'asc')->where('is_parent', $category->id)->where('status', 1 )->get() as $childCat )
                                         <option value="{{ $childCat->id }}">-- {{ $childCat->name }}</option>
+                                      @endforeach
                                       <!-- sub category option field -->
 
-                                      @endforeach
                                  @endforeach
                               </select>
                             </div>
 
                             <div class="col-md-6">
                                 <label class="form-label">Regular Price</label>
-                                <input type="text" name="regular_price" class="form-control"  placeholder="00.00">
+                                <input type="text" name="regular_price" value="{{ old('regular_price') }}" class="form-control"  placeholder="00.00">
                             </div>
   
                             <div class="col-md-6">
                                 <label class="form-label">Offer Price</label>
-                                <input type="text" name="offer_price" class="form-control"  placeholder="00.00">
+                                <input type="text" name="offer_price" value="{{ old('offer_price') }}" class="form-control"  placeholder="00.00">
                             </div>
   
                             <div class="col-md-6">
                                 <label class="form-label">SKU Code</label>
-                                <input type="text" name="sku_code" class="form-control" placeholder="sku Code">
+                                <input type="text" name="sku_code" value="{{ old('sku_code') }}" class="form-control" placeholder="sku Code">
                             </div>
   
                             <div class="col-md-6">
                                 <label class="form-label">Quantity</label>
-                                <input type="text" name="quantity" class="form-control" placeholder="Quantity">
+                                <input type="text" name="quantity" value="{{ old('quantity') }}" class="form-control" placeholder="Quantity">
                             </div>
   
                             <div class="col-12">
                                 <label class="form-label">Youtube video Link</label>
-                                <input type="text" name="video_link" class="form-control">
+                                <input type="text" name="video_link" value="{{ old('video_link') }}" class="form-control">
                             </div>
   
                             <div class="col-12">
                                 <label class="form-label">Is Featured</label>
-                                <select class="form-select" name="is_featured">
+                                <select class="form-select" name="is_featured" value="{{ old('is_featured') }}">
                                   <option value="" selected disabled>Please select the Featured Status</option>
                                   <option value="1">Yes</option>
                                   <option value="0">No</option>
@@ -143,7 +146,7 @@
   
                             <div class="mb-3">
                               <label class="form-label">Active Status</label>
-                                <select class="form-select" name="status" required='required'>
+                                <select class="form-select" name="status" value="{{ old('status') }}" required='required'>
                                   <option value="" selected disabled>Please Select the status</option>
                                   <option value="1">Active</option>
                                   <option value="2">Inactive</option>
@@ -152,7 +155,7 @@
   
                             <div class="col-12">
                                 <label for="inputProductTags" class="form-label">Product Tags</label>
-                                <input type="text" name="tags" class="form-control" id="inputProductTags" placeholder="Enter Product Tags">
+                                <input type="text" name="tags" value="{{ old('tags') }}" class="form-control" id="inputProductTags" placeholder="Enter Product Tags">
                             </div>
   
                             <div class="col-12">
