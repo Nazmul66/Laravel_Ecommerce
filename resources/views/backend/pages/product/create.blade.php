@@ -5,8 +5,7 @@
 @endsection
 
 @section('css')
-   <link href="assets/plugins/Drag-And-Drop/dist/imageuploadify.min.css" rel="stylesheet" />
-   <link href="assets/plugins/simplebar/css/simplebar.css" rel="stylesheet" />
+   <link href="{{ asset('backend/plugins/Drag-And-Drop/dist/imageuploadify.min.css') }}" rel="stylesheet" />
 @endsection
 
 
@@ -60,7 +59,7 @@
                       <div class="border border-3 p-4 rounded">
                           <div class="mb-3">
                             <label class="form-label">Product Title</label>
-                            <input type="text" name="title" class="form-control" value="{{ old('title') }}" placeholder="Enter product title" required="required">
+                            <input type="text" name="title" class="form-control" value="{{ old('title') }}" placeholder="Enter product title" >
                           </div>
   
                           <div class="mb-3">
@@ -75,8 +74,8 @@
   
                           <div class="mb-3">
                             <label for="inputProductDescription" class="form-label">Product Images</label>
-                            <input id="image-uploadify" type="file" accept=".xlsx,.xls,image/*,.doc,audio/*,.docx,video/*,.ppt,.pptx,.txt,.pdf" multiple="" style="display: none;"><div class="imageuploadify well"><div class="imageuploadify-overlay"><i class="fa fa-picture-o"></i></div><div class="imageuploadify-images-list text-center"><i class="bx bxs-cloud-upload"></i><span class="imageuploadify-message">Drag&amp;Drop Your File(s)Here To Upload</span><button type="button" class="btn btn-default">or select file to upload</button></div></div>
-                          </div>
+                            <input id="image-uploadify" type="file" accept=".xlsx,.xls,image/*,.doc,audio/*,.docx,video/*,.ppt,.pptx,.txt,.pdf" multiple="" style="display: none;">
+                            </div>
                       </div>
                     </div>
   
@@ -94,18 +93,21 @@
                             </div>
 
                             <div class="col-12">
-                              <label class="form-label">Select Category / Sub Category</label>
-                              <select class="form-select" name="category_id" value="{{ old('category_id') }}">
-                                <option value="" selected disabled>Please select Parent / Child Category</option>
+                              <label class="form-label">Select Parent Category </label>
+                              <select id="category_id" class="form-select" name="category_id">
+                                <option value="" selected disabled>Please select Parent Category</option>
                                  @foreach ( $categories as $category )
                                      <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                 @endforeach
+                              </select>
+                            </div>
 
-                                      <!-- sub category option field -->
-                                      @foreach ( App\Models\Category::orderBy('name', 'asc')->where('is_parent', $category->id)->where('status', 1 )->get() as $childCat )
-                                        <option value="{{ $childCat->id }}">-- {{ $childCat->name }}</option>
-                                      @endforeach
-                                      <!-- sub category option field -->
-
+                            <div class="col-12">
+                              <label class="form-label">Select Sub Category </label>
+                              <select id="subCategory_id" class="form-select" name="subCategory_id">
+                                <option value="" selected disabled>Please select Sub Category</option>
+                                 @foreach ( $subCats as $subCat )
+                                     <option value="{{ $subCat->id }}">{{ $subCat->name }}</option>
                                  @endforeach
                               </select>
                             </div>
@@ -179,10 +181,51 @@
 
 
 @section('script')
-<script src="assets/plugins/Drag-And-Drop/dist/imageuploadify.min.js"></script>
+<script src="{{ asset('backend/plugins/Drag-And-Drop/dist/imageuploadify.min.js') }}"></script>
   <script>
     $(document).ready(function () {
       $('#image-uploadify').imageuploadify();
     })
   </script>
+
+
+<script type="text/javascript">
+
+    $('#category_id').change(function() {
+          var categoryId = $('#category_id').val();
+
+          //  alert(categoryId); or console.log(categoryId);
+          var option = "";
+
+        if(categoryId != 0 && categoryId != ""){
+          $.get("http://127.0.0.1:8000/api/get-subCat/" + categoryId, function(data){
+              var dataElement = JSON.parse(data);
+              console.log(dataElement);
+
+              if( dataElement.length >= 1 ){
+                  dataElement.forEach(function( element ){
+                    option += "<option value='" + element.id + "'>" + element.name + "</option>";
+                  });
+                  $("#subCategory_id").html(option);
+              }
+              else{
+                $("#subCategory_id").html("<option>Sub Category not avilable</option>");
+              }
+          })
+        }
+
+
+       // 2nd way to fetch api data using jquery ajax 
+      //  $.get("http://127.0.0.1:8000/api/get-subCat/" + categoryId, function(data){
+      //      var dataElement = JSON.parse(data);
+      //      console.log(dataElement);
+
+      //      $("#subCategory_id").empty();
+      //      dataElement.forEach(function( element ){
+      //         $("#subCategory_id").append("<option value='" + element.id + "'>" + element.name + "</option>");
+      //      });
+      //   })
+    })
+
+</script>
 @endsection

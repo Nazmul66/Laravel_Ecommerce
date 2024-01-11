@@ -37,6 +37,9 @@
                                 <tr>
                                     <th scope="col">Sl.</th>
                                     <th scope="col">Product Title</th> 
+                                    <th scope="col">Brand</th> 
+                                    <th scope="col">Category</th> 
+                                    <th scope="col">Sub Category</th> 
                                     <th scope="col">SKU Code</th> 
                                     <th scope="col">Quantity</th> 
                                     <th scope="col">Regular Price</th> 
@@ -53,6 +56,15 @@
                                 <tr>
                                     <th scope="row">{{ $sl }}</th>
                                     <td>{{ $product->title }}</td>
+                                    <td>{{ $product->brand->name }}</td>
+                                    <td>{{ $product->category->name }}</td>
+                                    <td>
+                                       @foreach ($subCats as $subCat)
+                                        @if ( $product->subCategory_id == $subCat->id )
+                                            {{ $subCat->name }}
+                                        @endif   
+                                       @endforeach
+                                    </td>
                                     <td>{{ $product->sku_code }}</td>
                                     <td>{{ $product->quantity }}</td>
                                     <td>{{ $product->regular_price }}</td>

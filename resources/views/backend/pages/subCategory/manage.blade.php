@@ -1,7 +1,7 @@
 @extends('backend.layout.template')
 
 @section('page-title')
-   <title>Manage All Brand | Ecommerce Platform</title>
+   <title>Manage All Sub Category | Ecommerce Platform</title>
 @endsection
 
 @section('css')
@@ -19,14 +19,14 @@
 
             <div class="card-body">
               <div class="d-flex align-items-center justify-content-between mb-3">
-                 <h5 class="mb-0">All Category List</h5>
-                 <a href="{{ route('category.trash-manager') }}" class="btn btn-dark px-5">Trash Folder</a>
+                 <h5 class="mb-0">All Sub Category List</h5>
+                 <a href="{{ route('subCategory.trash-manager') }}" class="btn btn-dark px-5">Trash Folder</a>
               </div>
 
                 <div class="mb-3 border p-3 radius-10">
 
                     <!-- Manage Table Start -->
-                    @if( $categories->count() == 0)
+                    @if( $subCats->count() == 0)
                         <div class="alert alert-primary" role="alert">
                             Oops! there is no data in our system.
                         </div>                  
@@ -37,7 +37,8 @@
                                 <tr>
                                     <th scope="col">Sl.</th>
                                     <th scope="col">Image</th>
-                                    <th scope="col">Category Name</th>
+                                    <th scope="col">Sub Category Name</th>
+                                    <th scope="col">Parent Category Name</th>
                                     <th scope="col">Active Status</th>
                                     <th>Action</th>
                                 </tr>
@@ -45,12 +46,12 @@
                             <tbody>
                                 @php $sl = 1; @endphp
 
-                                @foreach ( $categories as $category )
+                                @foreach ( $subCats as $subCat )
 
                                 <tr>
                                     <th scope="row">{{ $sl }}</th>
-                                    <td>{{ $category->image }}
-                                        @if( !is_null( $category->image ) )
+                                    <td>{{ $subCat->image }}
+                                        @if( !is_null( $subCat->image ) )
                                            <img src="" alt="">
                                         @else
                                           <div class="alert alert-danger" role="alert">
@@ -58,27 +59,35 @@
                                           </div>
                                         @endif
                                     </td>
-                                    <td>{{ $category->name }}</td>
+                                    <td>{{ $subCat->name }}</td>
+                                    <td>{{ $subCat->category->name }}</td> {{-- using eloquent relationship -}}
+                                    {{-- <td>
+                                       @foreach ($categories as $category)
+                                           @if ( $category->id == $subCat->category_id )
+                                               {{ $category->name }}
+                                           @endif
+                                       @endforeach
+                                    </td> --}}
                                     <td>
-                                        @if( $category->status == 1 )
+                                        @if( $subCat->status == 1 )
                                         <span class="badge bg-success">Active</span>
-                                        @elseif ( $category->status == 2 )
+                                        @elseif ( $subCat->status == 2 )
                                         <span class="badge bg-danger">InActive</span>
                                         @endif
                                     </td>
                                       <td>
-                                        <a href="{{ route('category.edit', $category->id) }}" class="btn btn-primary">
+                                        <a href="{{ route('subCategory.edit', $subCat->id) }}" class="btn btn-primary">
                                             <i class="lni lni-pencil-alt"></i>
                                         </a>
                                         <button class="btn btn-danger">
-                                            <i class="lni lni-trash" data-bs-toggle="modal" data-bs-target="#category{{ $category->id }}"></i>
+                                            <i class="lni lni-trash" data-bs-toggle="modal" data-bs-target="#subCategory{{ $subCat->id }}"></i>
                                         </button>
                                       </td>
                                    </tr>
 
 
                                  <!-- Modal -->
-                                <div class="modal fade" id="category{{ $category->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal fade" id="subCategory{{ $subCat->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog">
                                      <div class="modal-content">
                                         <div class="modal-header">
@@ -88,7 +97,7 @@
 
                                         <div class="modal-body d-flex justify-content-center mb-3 mt-3">
                                             <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button> 
-                                            <a href="{{ route('category.destroy', $category->id) }}" class="btn btn-danger ms-3">Confirm</a>
+                                            <a href="{{ route('subCategory.destroy', $subCat->id) }}" class="btn btn-danger ms-3">Confirm</a>
                                         </div>
                                      </div>
                                     </div>

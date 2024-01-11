@@ -14,6 +14,7 @@ class Product extends Model
         'slug',
         'brand_id',
         'category_id',
+        'subCategory_id',
         'short-details',
         'long-details',
         'regular-price',
@@ -25,4 +26,19 @@ class Product extends Model
         "status",
         "tags"
     ];
+
+    public function brand()
+    {
+        return $this->belongsTo(Brand::class);
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class, );
+    }
+
+    public function subCategory()
+    {
+        return $this->belongsTo(SubCategory::class);
+    }
 }

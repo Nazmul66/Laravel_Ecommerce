@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Category;
+use App\Models\SubCategory;
 use App\Models\Brand;
 use Illuminate\Support\Str;
 
@@ -15,7 +16,7 @@ class CategoryController extends Controller
      */
     public function manage()
     {
-        $categories = Category::orderBy('name', 'asc')->where('is_parent', '=', "0")->where('status', '=' , '1')->get();
+        $categories = Category::orderBy('name', 'asc')->where('status', '=' , '1')->get();
         return view('backend.pages.category.manage', compact('categories'));
     }
 
@@ -24,8 +25,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        $categories = Category::orderBy('name', 'asc')->where('is_parent', '=', "0")->where('status', '=' , '1')->get();
-        return view('backend.pages.category.create', compact('categories'));
+        return view('backend.pages.category.create');
     }
 
     /**
@@ -38,7 +38,6 @@ class CategoryController extends Controller
         $category->name             = $request->name;
         $category->slug             = Str::slug($request->name);
         $category->description      = $request->description;
-        $category->is_parent        = $request->is_parent;
         // $category->image         = $request->image;
         $category->status           = $request->status;
 
@@ -56,8 +55,7 @@ class CategoryController extends Controller
         $category = Category::find($id);
         
         if( !is_null( $category ) ){
-            $pCategories = Category::orderBy('name', 'asc')->where('is_parent', '=', "0")->where('status', '=' , '1')->get();
-            return view('backend.pages.category.edit', compact('category', 'pCategories'));
+            return view('backend.pages.category.edit', compact('category'));
         }
     }
 
@@ -70,7 +68,6 @@ class CategoryController extends Controller
         $category->name             = $request->name;
         $category->slug             = Str::slug($request->name);
         $category->description      = $request->description;
-        $category->is_parent        = $request->is_parent;
         // $category->image         = $request->image;
         $category->status           = $request->status;
 
@@ -93,6 +90,13 @@ class CategoryController extends Controller
     {
         $category = Category::find($id);
         if( !is_null($category) ){
+
+            $subCats = SubCategory::orderBy("name", "asc")->where("category_id", $category->id)->get();
+
+            foreach( $subCats as $subCat ) {
+                $subCat->delete();
+            }
+
             $category->delete();
 
             return redirect()->route('category.trash-manager'); 

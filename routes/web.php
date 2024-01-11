@@ -11,6 +11,7 @@ use App\Http\Controllers\Frontend\dashboardController;
 use App\Http\Controllers\Backend\AdminPageController;
 use App\Http\Controllers\Backend\BrandController;
 use App\Http\Controllers\Backend\CategoryController;
+use App\Http\Controllers\Backend\SubCategoryController;
 use App\Http\Controllers\Backend\CountryController;
 use App\Http\Controllers\Backend\DistrictController;
 use App\Http\Controllers\Backend\StateController;
@@ -91,6 +92,19 @@ Route::group(['prefix'=>'/admin'], function(){
     });
 
 
+    // sub Category
+    Route::group(['prefix'=>'/sub-category'], function(){
+        Route::get('/manage', [SubCategoryController::class, "manage"])->name('subCategory.manage');
+        Route::get('/create', [SubCategoryController::class, "create"])->name('subCategory.create');
+        Route::post('/store', [SubCategoryController::class, "store"])->name('subCategory.store');
+        Route::get('/edit/{id}', [SubCategoryController::class, "edit"])->name('subCategory.edit');
+        Route::post('/update/{id}', [SubCategoryController::class, "update"])->name('subCategory.update');
+        Route::get('/destroy/{id}', [SubCategoryController::class, "destroy"])->name('subCategory.destroy');
+        Route::get('/trash/{id}', [SubCategoryController::class, "trash"])->name('subCategory.trash');
+        Route::get('/trash-manager', [SubCategoryController::class, "trashManager"])->name('subCategory.trash-manager');
+    });
+
+
     // Product
     Route::group(['prefix'=>'/product'], function(){
         Route::get('/manage', [ProductController::class, "manage"])->name('product.manage');
@@ -142,4 +156,15 @@ Route::group(['prefix'=>'/admin'], function(){
         Route::get('/trash-manager', [DistrictController::class, "trashManager"])->name('district.trash-manager');
     });
 
+
+    
 });
+
+
+
+
+
+
+
+
+

@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 use App\Models\Category;
 use App\Models\Brand;
 use App\Models\Product;
+use App\Models\SubCategory;
 
 class ProductController extends Controller
 {
@@ -17,8 +18,9 @@ class ProductController extends Controller
      */
     public function manage()
     {
+        $subCats  = SubCategory::orderBy('name', 'ASC')->where('status', '1')->get();
         $products = Product::orderBy('title', 'asc')->where('status', '=' , '1')->get();
-        return view('backend.pages.product.manage', compact('products'));
+        return view('backend.pages.product.manage', compact('products','subCats'));
     }
 
     /**
@@ -26,9 +28,10 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $brands      = Brand::orderBy('name', 'ASC')->where('status', '1')->get();
-        $categories  = Category::orderBy('name', 'ASC')->where('is_parent', 0)->where('status', '1')->get();
-        return view('backend.pages.product.create', compact("brands", "categories"));
+        $brands       = Brand::orderBy('name', 'ASC')->where('status', '1')->get();
+        $categories   = Category::orderBy('name', 'ASC')->where('status', '1')->get();
+        $subCats      = SubCategory::orderBy('name', 'ASC')->where('status', '1')->get();
+        return view('backend.pages.product.create', compact("brands", "categories", "subCats"));
     }
 
     /**
@@ -38,16 +41,24 @@ class ProductController extends Controller
     {
         $product = new Product();
 
-        // 2 way integrate validate system
-        $productValidate = $request->validate([
+        // 1st way integrate validate system
+        $request->validate([
             'title'              => 'required',
             'brand_id'           => 'required',
             'category_id'        => 'required',
+            'subCategory_id'     => 'required',
             'short_description'  => 'required',
             'regular_price'      => 'required',
             'quantity'           => 'required',
-        ]);
+        ],
+        [
+            'title.required'      => "Product title are not set",
+            // 'title.unique'        => "Product title should be unique",
+            'quantity.required'   => "Product quantity must be added",
+        ]
+    );
 
+        // 2nd way integrate validate system
         // $this->validate($request, [      
         //     'title'             => 'required',
         //     'brand_id'          => 'required',
@@ -61,6 +72,7 @@ class ProductController extends Controller
         $product->slug              = Str::slug($request->title);
         $product->brand_id          = $request->brand_id;
         $product->category_id       = $request->category_id;
+        $product->subCategory_id    = $request->subCategory_id;
         $product->short_details     = $request->short_description;
         $product->long_details      = $request->long_description;
         $product->regular_price	    = $request->regular_price;
@@ -76,21 +88,20 @@ class ProductController extends Controller
 
         $product->save();
 
-        $notification = array(
-            'message'    => "product has been added",
-            'alert-type' => "success"
-        );
+        // 1st way flash msg show 
+        session::flash('alert-type', 'success');
+        session::flash('message', "product has been added");
+
+
+        // 2nd way flash msg show 
+        // $notification = array(
+        //     'message'    => "product has been added",
+        //     'alert-type' => "success"
+        // );
 
         // return redirect()->route("product.manage")->with('success', 'Product added successfully');
-        return redirect()->route("product.manage")->with($notification);
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
+        // return redirect()->route("product.manage")->with($notification); --> 2nd way flash msg show
+        return redirect()->route("product.manage");
     }
 
     /**

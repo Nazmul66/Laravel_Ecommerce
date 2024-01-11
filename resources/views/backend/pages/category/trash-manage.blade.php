@@ -38,7 +38,6 @@
                                     <th scope="col">Sl.</th>
                                     <th scope="col">Image</th>
                                     <th scope="col">Category Name</th>
-                                    <th scope="col">Parent / Child</th>
                                     <th scope="col">Active Status</th>
                                     <th>Action</th>
                                 </tr>
@@ -59,13 +58,6 @@
                                         @endif
                                     </td>
                                     <td>{{ $category->name }}</td>
-                                    <td>
-                                        @if ( $category->is_parent == 0 ) 
-                                           <span class="badge bg-primary">Parent Category</span>
-                                        @else
-                                           {{ $category->parent->name }}  
-                                        @endif
-                                   </td>
                                     <td>
                                         @if( $category->status == 1 )
                                            <span class="badge bg-success">Active</span>

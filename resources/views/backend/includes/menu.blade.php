@@ -48,10 +48,16 @@
 					</a>
 					<ul>
 						<li> 
-							<a href="{{ route('category.create') }}"><i class="bx bx-right-arrow-alt"></i>Add New Category</a>
+							<a href="{{ route('category.create') }}"><i class="bx bx-right-arrow-alt"></i>Add Parent Categories</a>
 						</li>
 						<li> 
-							<a href="{{ route('category.manage') }}"><i class="bx bx-right-arrow-alt"></i>Manage Category</a>
+							<a href="{{ route('category.manage') }}"><i class="bx bx-right-arrow-alt"></i>All Parent Categories</a>
+						</li>
+						<li> 
+							<a href="{{ route('subCategory.create') }}"><i class="bx bx-right-arrow-alt"></i>Add Sub Categories</a>
+						</li>
+						<li> 
+							<a href="{{ route('subCategory.manage') }}"><i class="bx bx-right-arrow-alt"></i>All Sub Categories</a>
 						</li>
 					</ul>
 				</li>

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->text('slug')->nullable();
             $table->integer('brand_id')->nullable();
             $table->integer('category_id')->nullable();
+            $table->integer('subCategory_id')->nullable();
             $table->text('short_details')->nullable();
             $table->text('long_details')->nullable();
             $table->unsignedInteger('regular_price')->default(1);

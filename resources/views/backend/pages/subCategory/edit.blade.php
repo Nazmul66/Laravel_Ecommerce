@@ -1,7 +1,7 @@
 @extends('backend.layout.template')
 
 @section('page-title')
-   <title>Update Brand Information | Ecommerce Platform</title>
+   <title>Update Sub Category Information | Ecommerce Platform</title>
 @endsection
 
 @section('css')
@@ -19,30 +19,40 @@
 
             <div class="card-body">
               <div class="d-flex align-items-center mb-3">
-                 <h5 class="mb-0">Update Brand Information</h5>
+                 <h5 class="mb-0">Update Sub Category Information</h5>
               </div>
 
                 <div class="mb-3 border p-3 radius-10">
-                  <form method="post" action="{{ route('category.update', $category->id) }}" enctype="multipart/form-data">
+                  <form method="post" action="{{ route('subCategory.update', $subCat->id) }}" enctype="multipart/form-data">
                         
                       @csrf
 
-                        <div class="mb-3">
+                      <div class="mb-3">
                           <label class="form-label">Category Name</label>
-                          <input type="text" name="name" class="form-control" value="{{ $category->name }}" placeholder="Category Name" required='required'>
+                          <input type="text" name="name" class="form-control" value="{{ $subCat->name }}" placeholder="Category Name" required='required'>
+                      </div>
+
+                      <div class="mb-3">
+                        <label class="form-label">Parent Category Name</label>
+                          <select class="form-select" name="category_id" required='required'>
+                            <option value="" selected disabled>Please Select the parent category</option>
+                            @foreach ($parentCats as $parentCat)
+                              <option value="{{ $parentCat->id }}" @if ( $parentCat->id == $subCat->category_id ) selected @endif>{{ $parentCat->name }}</option>
+                            @endforeach
+                          </select>
                       </div>
 
                       <div class="mb-3">
                         <label class="form-label">Description</label>
-                        <textarea name="description" rows="5" class="form-control" placeholder="Write description....." required='required'>{{ $category->description }}</textarea>
+                        <textarea name="description" rows="5" class="form-control" placeholder="Write description....." required='required'>{{ $subCat->description }}</textarea>
                       </div>
 
                       <div class="mb-3">
                         <label class="form-label">Active Status</label>
                           <select class="form-select" name="status" required='required'>
                             <option value="" selected disabled>Please Select the status</option>
-                            <option value="1" @if ( $category->status == 1 ) selected @endif>Active</option>
-                            <option value="2" @if ( $category->status == 2 ) selected @endif>Inactive</option>
+                            <option value="1" @if ( $subCat->status == 1 ) selected @endif>Active</option>
+                            <option value="2" @if ( $subCat->status == 2 ) selected @endif>Inactive</option>
                           </select>
                       </div>
 
