@@ -59,6 +59,11 @@
                       <div class="mb-3">
                         <label for="formFile" class="form-label">Category Logo</label>
                         <input class="form-control" name="image" type="file" id="formFile">
+                          @if( !is_null( $subCat->image ) )
+                            <img src="{{ asset('uploads/sub_categories/' . $subCat->image) }}" alt="">
+                            @else
+                              <img src="{{ asset('uploads/ques_mark_product.jpg') }}" alt="" width="80" height="80">
+                          @endif
                       </div>
 
                       <input type="submit" class="btn btn-primary" value="Update Brand" />

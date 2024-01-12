@@ -49,9 +49,9 @@
                                     @php $sl++ @endphp
                                 <tr>
                                     <th scope="row">{{ $sl }}</th>
-                                    <td>{{ $brand->image }}
+                                    <td>
                                         @if( !is_null($brand->image) )
-                                           <img src="" alt="">
+                                        <img src="{{ asset('uploads/Brands/' . $brand->image) }}" alt="">
                                         @else
                                           <div class="alert alert-danger" role="alert">
                                              Image not available    

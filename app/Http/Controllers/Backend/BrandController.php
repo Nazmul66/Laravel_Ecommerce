@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Brand;
 use Illuminate\Support\Str;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver;
 
 class BrandController extends Controller
 {
@@ -32,15 +34,51 @@ class BrandController extends Controller
     public function store(Request $request)
     {
         $brands = new Brand();
+
+        $request->validate([
+            "name" => 'required',
+        ],
+        [
+            "name.required" => "please fill up the field"
+        ]
+    );
+
         $brands->name           = $request->name;
         $brands->slug           = Str::slug($request->name);
         $brands->description    = $request->description;
-        // $brands->image          = $request->image;
         $brands->status         = $request->status;
+
+        if( $request->file('image') ){
+           $manager = new ImageManager(new Driver());
+           $image = $request->file('image');
+           $img = $manager->read($request->file('image'));
+           
+           // create images name
+           $images = time() . "-brand-." . $image->getClientOriginalExtension();
+
+           // images size set
+           $img->resize(80,80);
+
+           // images path location
+           $location = public_path("uploads/Brands/" . $images);
+
+           // to set images to their path location
+           $img->toJpeg()->save($location);
+          
+           // added the images data to database
+           $brands->image = $images;
+        }
 
         // dd($brands);  
         $brands->save();
-        return redirect()->route('brand.manage');
+
+        // successful message display 
+        $notification = array(
+            'message'    => "Added new Brand data",
+            'alert-type' => "success"
+        );
+
+        return redirect()->route('brand.manage')->with($notification);
     }
 
     /**
@@ -66,12 +104,43 @@ class BrandController extends Controller
             $brand->name           = $request->name;
             $brand->slug           = Str::slug($request->name);
             $brand->description    = $request->description;
-            // $brands->image          = $request->image;
             $brand->status         = $request->status;
+
+            if( $request->image ){
+
+                if( file_exists("uploads/Brands/" . $brand->image ) == ""){
+                    unlink("uploads/Brands/" . $brand->image );
+                }
+                else if( file_exists("uploads/Brands/" . $brand->image ) ){
+                    unlink("uploads/Brands/" . $brand->image );
+                }
+
+                $manager = new ImageManager(new Driver());
+                $image = $request->file('image');
+                $img = $manager->read($request->file('image'));
+                
+                // create images name
+                $images = time() . "-brand-." . $image->getClientOriginalExtension();
+     
+                $img->resize(80,80);
+     
+                $location = public_path("uploads/Brands/" . $images);
+     
+                $img->toJpeg()->save($location);
+     
+                $brand->image = $images;
+            }
             
             // dd($district); 
             $brand->save();
-            return redirect()->route('brand.manage'); 
+
+            // successful message display 
+            $notification = array(
+                'message'    => "Update Brand information successfully",
+                'alert-type' => "success"
+            );
+
+            return redirect()->route('brand.manage')->with($notification); 
         }
     }
 
@@ -87,9 +156,22 @@ class BrandController extends Controller
     {
         $brand = Brand::find($id);
         if( !is_null($brand) ){
+
+            $imagePath = "uploads/Brands/" . $brand->image;
+
+            if (!is_null($brand->image) && file_exists($imagePath)) {
+                unlink($imagePath);
+            }
+            
             $brand->delete();
 
-            return redirect()->route('brand.trash-manager'); 
+        $notification = array(
+            'message'    => "Delete Brand data",
+            'alert-type' => "error"
+        );
+
+
+            return redirect()->route('brand.trash-manager')->with($notification); 
         }
     }
 

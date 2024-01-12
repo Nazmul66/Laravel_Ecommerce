@@ -22,6 +22,8 @@
                  <h5 class="mb-0">Add New Brand</h5>
               </div>
 
+              @include('backend.includes.message')
+
                 <div class="mb-3 border p-3 radius-10">
                     <form method="post" action="{{ route('brand.store') }}" enctype="multipart/form-data">
                         
@@ -29,12 +31,12 @@
 
                         <div class="mb-3">
                             <label class="form-label">Brand Name</label>
-                            <input type="text" name="name" class="form-control" value="{{ old('name') }}" placeholder="Enter The Brand Name" required='required'>
+                            <input type="text" name="name" class="form-control" value="{{ old('name') }}" placeholder="Enter The Brand Name" >
                         </div>
 
                         <div class="mb-3">
                           <label class="form-label">Description</label>
-                          <textarea name="description" rows="5" class="form-control" placeholder="Write description....." required='required'>{{ old('description') }}</textarea>
+                          <textarea name="description" rows="5" class="form-control" placeholder="Write description....." value="{{ old('description') }}" required='required'>{{ old('description') }}</textarea>
                         </div>
 
                         <div class="mb-3">

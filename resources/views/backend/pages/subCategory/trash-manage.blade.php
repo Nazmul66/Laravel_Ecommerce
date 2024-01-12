@@ -48,14 +48,12 @@
                                     @php $sl++ @endphp
                                 <tr>
                                     <th scope="row">{{ $sl }}</th>
-                                    <td>{{ $subCat->image }}
-                                        @if( !is_null($subCat->image) )
-                                           <img src="" alt="">
-                                        @else
-                                          <div class="alert alert-danger" role="alert">
-                                             Image not available    
-                                          </div>
-                                        @endif
+                                    <td>
+                                      @if( !is_null( $subCat->image ) )
+                                        <img src="{{ asset('uploads/sub_categories/' . $subCat->image) }}" alt="">
+                                       @else
+                                         <img src="{{ asset('uploads/ques_mark_product.jpg') }}" alt="" width="80" height="80">
+                                      @endif
                                     </td>
                                     <td>{{ $subCat->name }}</td>
                                     <td>

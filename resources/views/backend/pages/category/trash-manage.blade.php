@@ -48,9 +48,9 @@
                                     @php $sl++ @endphp
                                 <tr>
                                     <th scope="row">{{ $sl }}</th>
-                                    <td>{{ $category->image }}
+                                    <td>
                                         @if( !is_null($category->image) )
-                                           <img src="" alt="">
+                                        <img src="{{ asset("uploads/categories/" . $category->image) }}" alt="">
                                         @else
                                           <div class="alert alert-danger" role="alert">
                                              Image not available    

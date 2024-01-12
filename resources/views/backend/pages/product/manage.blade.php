@@ -56,8 +56,20 @@
                                 <tr>
                                     <th scope="row">{{ $sl }}</th>
                                     <td>{{ $product->title }}</td>
-                                    <td>{{ $product->brand->name }}</td>
-                                    <td>{{ $product->category->name }}</td>
+                                    <td>
+                                       @foreach ($brands as $brand)
+                                          @if ( $product->brand_id == $brand->id )
+                                             {{ $brand->name }}
+                                          @endif 
+                                       @endforeach
+                                    </td>
+                                    <td>
+                                        @foreach ($categories as $category)
+                                            @if ( $product->category_id == $category->id )
+                                            {{ $category->name }}
+                                            @endif 
+                                        @endforeach
+                                    </td>
                                     <td>
                                        @foreach ($subCats as $subCat)
                                         @if ( $product->subCategory_id == $subCat->id )

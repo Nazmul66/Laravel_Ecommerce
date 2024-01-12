@@ -19,14 +19,14 @@
 
             <div class="card-body">
               <div class="d-flex align-items-center justify-content-between mb-3">
-                 <h5 class="mb-0">District trash data</h5>
-                 <a href="{{ route('district.manage') }}" class="btn btn-dark px-5">Back to all Manage</a>
+                 <h5 class="mb-0">All Product List</h5>
+                 <a href="{{ route('product.manage') }}" class="btn btn-dark px-5">Back to all Manage</a>
               </div>
 
                 <div class="mb-3 border p-3 radius-10">
 
                     <!-- Manage Table Start -->
-                    @if( $districts->count() == 0)
+                    @if( $products->count() == 0)
                         <div class="alert alert-primary" role="alert">
                             Oops! there is no data in our system.
                         </div>                  
@@ -36,50 +36,94 @@
                             <thead>
                                 <tr>
                                     <th scope="col">Sl.</th>
-                                    <th scope="col">District Name</th>
-                                    <th scope="col">State Name</th>
+                                    <th scope="col">Product Title</th> 
+                                    <th scope="col">Brand</th> 
+                                    <th scope="col">Category</th> 
+                                    <th scope="col">Sub Category</th> 
+                                    <th scope="col">SKU Code</th> 
+                                    <th scope="col">Quantity</th> 
+                                    <th scope="col">Regular Price</th> 
+                                    <th scope="col">Offer Price</th> 
+                                    <th scope="col">Featured</th>
                                     <th scope="col">Active Status</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                     @php $sl = 0; @endphp
-                                @foreach ( $districts as $district )
+                                @foreach ( $products as $product )
                                     @php $sl++ @endphp
                                 <tr>
                                     <th scope="row">{{ $sl }}</th>
-                                    <td>{{ $district->name}}</td>
-                                    <td>{{ $district->state->name }}</td>
+                                    <td>{{ $product->title }}</td>
                                     <td>
-                                       @if( $district->status == 1 )
+                                        @foreach ($brands as $brand)
+                                           @if ( $product->brand_id == $brand->id )
+                                              {{ $brand->name }}
+                                           @endif 
+                                        @endforeach
+                                     </td>
+                                     <td>
+                                         @foreach ($categories as $category)
+                                             @if ( $product->category_id == $category->id )
+                                             {{ $category->name }}
+                                             @endif 
+                                         @endforeach
+                                     </td>
+                                    <td>
+                                       @foreach ($subCats as $subCat)
+                                        @if ( $product->subCategory_id == $subCat->id )
+                                            {{ $subCat->name }}
+                                        @endif   
+                                       @endforeach
+                                    </td>
+                                    <td>{{ $product->sku_code }}</td>
+                                    <td>{{ $product->quantity }}</td>
+                                    <td>{{ $product->regular_price }}</td>
+                                    <td>
+                                        @if ( !is_null( $product->offer_price ) )
+                                            {{ $product->offer_price }}
+                                        @else
+                                           <span class="badge rounded-pill bg-warning">-- Not Applied --</span>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if ( $product->is_featured == 1 )
+                                          <span class="badge bg-primary">Featured</span>
+                                        @elseif ($product->is_featured == 0)
+                                          <span class="badge bg-secondary">-- Not Featured --</span>
+                                        @endif
+                                    </td>
+                                    <td>
+                                       @if( $product->status == 1 )
                                         <span class="badge bg-success">Active</span>
-                                       @elseif ( $district->status == 2 )
+                                       @elseif ( $product->status == 2 )
                                          <span class="badge bg-danger">InActive</span>
                                         @endif
                                     </td>
                                     <td>
-                                        <a href="{{ route('district.edit', $district->id) }}" class="btn btn-primary">
+                                        <a href="{{ route('product.edit', $product->id) }}" class="btn btn-primary">
                                             <i class="lni lni-pencil-alt"></i>
                                         </a>
                                         <button class="btn btn-danger">
-                                            <i class="lni lni-trash" data-bs-toggle="modal" data-bs-target="#district{{ $district->id }}"></i>
+                                            <i class="lni lni-trash" data-bs-toggle="modal" data-bs-target="#products{{ $product->id }}"></i>
                                         </button>
                                       </td>
                                 </tr>
 
 
                                  <!-- Modal -->
-                                <div class="modal fade" id="district{{ $district->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal fade" id="products{{ $product->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog">
                                      <div class="modal-content">
                                         <div class="modal-header">
-                                            <h1 class="modal-title fs-5 text-center" id="exampleModalLabel">Do you want to delete Permanently</h1>
+                                            <h1 class="modal-title fs-5 text-center" id="exampleModalLabel">Do you want to permanently delete this data </h1>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
 
                                         <div class="modal-body d-flex justify-content-center mb-3 mt-3">
                                             <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button> 
-                                            <a href="{{ route('district.trash', $district->id) }}" class="btn btn-danger ms-3">Confirm</a>
+                                            <a href="{{ route('product.trash', $product->id) }}" class="btn btn-danger ms-3">Confirm</a>
                                         </div>
                                      </div>
                                     </div>

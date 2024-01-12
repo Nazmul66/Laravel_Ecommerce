@@ -50,13 +50,11 @@
 
                                 <tr>
                                     <th scope="row">{{ $sl }}</th>
-                                    <td>{{ $subCat->image }}
+                                    <td>
                                         @if( !is_null( $subCat->image ) )
-                                           <img src="" alt="">
+                                           <img src="{{ asset('uploads/sub_categories/' . $subCat->image) }}" alt="">
                                         @else
-                                          <div class="alert alert-danger" role="alert">
-                                             Image not available    
-                                          </div>
+                                        <img src="{{ asset('uploads/ques_mark_product.jpg') }}" alt="" width="80" height="80">
                                         @endif
                                     </td>
                                     <td>{{ $subCat->name }}</td>

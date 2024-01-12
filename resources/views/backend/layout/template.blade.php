@@ -28,8 +28,6 @@
 	</div>
 	<!--end wrapper-->
 
-   @include('backend.includes.switcher')
-
    @include('backend.includes.script')
    
 </body>

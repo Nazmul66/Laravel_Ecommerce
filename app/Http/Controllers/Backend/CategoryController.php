@@ -8,6 +8,8 @@ use App\Models\Category;
 use App\Models\SubCategory;
 use App\Models\Brand;
 use Illuminate\Support\Str;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver;
 
 class CategoryController extends Controller
 {
@@ -38,12 +40,35 @@ class CategoryController extends Controller
         $category->name             = $request->name;
         $category->slug             = Str::slug($request->name);
         $category->description      = $request->description;
-        // $category->image         = $request->image;
         $category->status           = $request->status;
+
+        if( $request->file('image') ){
+            $manager = new ImageManager(new Driver());
+            $image = $request->file('image');
+            $img = $manager->read($request->file('image'));
+            
+            // create images name
+            $images = time() . "-category-." . $image->getClientOriginalExtension();
+ 
+            $img->resize(80,80);
+ 
+            $location = public_path("uploads/categories/" . $images);
+ 
+            $img->toJpeg()->save($location);
+ 
+            $category->image = $images;
+         }
 
         // dd($category);  
         $category->save();
-        return redirect()->route('category.manage');
+
+        // successful message display 
+        $notification = array(
+            'message'    => "Added new category data",
+            'alert-type' => "success"
+        );
+
+        return redirect()->route('category.manage')->with($notification);
     }
 
 
@@ -68,12 +93,41 @@ class CategoryController extends Controller
         $category->name             = $request->name;
         $category->slug             = Str::slug($request->name);
         $category->description      = $request->description;
-        // $category->image         = $request->image;
         $category->status           = $request->status;
+
+        if( $request->image ){
+
+            if( !is_null($category->image) && file_exists("uploads/categories/" . $category->image ) ){
+                unlink("uploads/categories/" . $category->image );
+            }
+
+            $manager = new ImageManager(new Driver());
+            $image = $request->file('image');
+            $img = $manager->read($request->file('image'));
+            
+            // create images name
+            $images = time() . "-category-." . $image->getClientOriginalExtension();
+ 
+            $img->resize(80,80);
+ 
+            $location = public_path("uploads/categories/" . $images);
+ 
+            $img->toJpeg()->save($location);
+ 
+            $category->image = $images;
+        }
+        
 
         // dd($category);  
         $category->save();
-        return redirect()->route('category.manage');
+
+        // successful message display 
+        $notification = array(
+            'message'    => "Update category information successfully",
+            'alert-type' => "success"
+        );
+
+        return redirect()->route('category.manage')->with($notification);
 
        }
     }
@@ -93,13 +147,31 @@ class CategoryController extends Controller
 
             $subCats = SubCategory::orderBy("name", "asc")->where("category_id", $category->id)->get();
 
+            // subCat delete data
             foreach( $subCats as $subCat ) {
+                $SubImagePath = "uploads/sub_categories/" . $subCat->image;
+
+                if (!is_null($subCat->image) && file_exists($SubImagePath)) {
+                    unlink($SubImagePath);
+                }
                 $subCat->delete();
+            }
+
+            $imagePath = "uploads/categories/" . $category->image;
+            if (!is_null($category->image) && file_exists($imagePath)) {
+                unlink($imagePath);
             }
 
             $category->delete();
 
-            return redirect()->route('category.trash-manager'); 
+
+        // delete message display 
+        $notification = array(
+            'message'    => "Delete category data!",
+            'alert-type' => "error"
+        );
+
+            return redirect()->route('category.trash-manager')->with($notification); 
         }
     }
 

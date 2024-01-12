@@ -1,11 +1,11 @@
 @extends('backend.layout.template')
 
 @section('page-title')
-   <title>Update District | Ecommerce Platform</title>
+   <title>Update Products | Ecommerce Platform</title>
 @endsection
 
 @section('css')
-   <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+   
 @endsection
 
 
@@ -13,52 +13,150 @@
 @section('body-content')
 
 <div class="page-content">
-    <div class="row">
-        <div class="col-12 col-lg-12 col-xl-12 d-flex">
-          <div class="card radius-10 w-100">
+  <div class="card">
+      <div class="card-body p-4">
+        <h5 class="card-title">Update New Products</h5>
+          <hr>
 
-            <div class="card-body">
-              <div class="d-flex align-items-center mb-3">
-                 <h5 class="mb-0">Update District Information</h5>
-              </div>
+          @include('backend.includes.message')
+          
+          <div class="form-body mt-4">
+            <form method="post" action="{{ route('product.update', $product->id) }}" enctype="multipart/form-data">
+              <div class="row">
 
-                <div class="mb-3 border p-3 radius-10">
-                    <form method="post" action="{{ route('district.update', $district->id) }}">
-                        
-                        @csrf
+                  @csrf
 
-                        <div class="mb-3">
-                            <label for="" class="form-label">Name</label>
-                            <input type="text" name="name" class="form-control" placeholder="Enter the district name" value="{{ $district->name }}" required='required'>
-                        </div>
+                <div class="col-lg-8">
+                  <div class="border border-3 p-4 rounded">
+                      <div class="mb-3">
+                        <label class="form-label">Product Title</label>
+                        <input type="text" name="title" class="form-control" value="{{ $product->title }}" placeholder="Enter product title" >
+                      </div>
 
-                        <div class="mb-3">
-                          <label for="" class="form-label">Name</label>
-                            <select class="selection form-select" name="state_id" required>
-                                  <option value="" disabled>Please select state name</option>
-                                @foreach ($states as $state)
-                                  <option value="{{ $state->id }}" @if($state->id == $district->state_id ) selected  @endif >{{ $state->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
+                      <div class="mb-3">
+                        <label class="form-label">Short Description</label>
+                        <textarea name="short_description" class="form-control" rows="4">{{ $product->short_details }}</textarea>
+                      </div>
 
-                        <div class="mb-3">
-                          <label for="" class="form-label">Status</label>
-                            <select class="form-select" name="status" required='required'>
-                              <option value="" disabled>Select Status</option>
-                              <option value='1' @if( $district->status == 1 ) selected @endif >Active</option>
-                              <option value='2' @if( $district->status == 2 ) selected @endif >Inactive</option>
-                            </select>
-                        </div>
+                      <div class="mb-3">
+                        <label class="form-label">Long Description</label>
+                        <textarea name="long_description" class="form-control" rows="7">{{ $product->long_details }}</textarea>
+                      </div>
 
-                        <input type="submit" class="btn btn-primary" value="Update District" />
-                    </form>
+                      <div class="mb-3">
+                        <label class="file_div" for="fileUploader">
+                            {{-- <h2>Upload</h2> --}}
+                            <img src="{{ asset('backend/images/Upload_icon.png') }}" alt="" class="img_upload">
+                            <h3>Upload Files or <span>Browse</span></h3>
+                            <p>Supported formates: JPEG, PNG, JPG</p>
+                            <figcaption class="file_name d-none" ></figcaption>
+                        </label>
+                        <input type="file" accept=".jpg, .png, .jpeg" class="d-none" id="fileUploader">
+                      </div>
+                  </div>
                 </div>
 
-            </div>
-          </div>
-        </div>
+                <div class="col-lg-4">
+                  <div class="border border-3 p-4 rounded">
+                      <div class="row g-3">
+                        <div class="col-12">
+                          <label class="form-label">Select Brand</label>
+                          <select class="form-select" name="brand_id" value="{{ old('brand_id') }}" >
+                            <option value="" selected disabled>Please select the Brand Name</option>
+                              @foreach ($brands as $brand)
+                                  <option value="{{ $brand->id }}" 
+                                    @if ( $brand->id == $product->brand_id ) selected @endif
+                                    >{{ $brand->name }}</option>
+                              @endforeach
+                          </select>
+                        </div>
+
+                        <div class="col-12">
+                          <label class="form-label">Select Parent Category </label>
+                          <select id="category_id" class="form-select" name="category_id">
+                            <option value="" selected disabled>Please select Parent Category</option>
+                              @foreach ( $categories as $category )
+                                  <option value="{{ $category->id }}"
+                                    @if ( $category->id == $product->category_id ) selected @endif  
+                                  >{{ $category->name }}</option>
+                              @endforeach
+                          </select>
+                        </div>
+
+                        <div class="col-12">
+                          <label class="form-label">Select Sub Category </label>
+                          <select id="subCategory_id" class="form-select" name="subCategory_id">
+                            <option value="" selected disabled>Please select Sub Category</option>
+                              @foreach ( $subCats as $subCat )
+                                  <option value="{{ $subCat->id }}"
+                                    @if ( $subCat->id == $product->subCategory_id ) selected @endif   
+                                  >{{ $subCat->name }}</option>
+                              @endforeach
+                          </select>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Regular Price</label>
+                            <input type="text" name="regular_price" value="{{ $product->regular_price }}" class="form-control"  placeholder="00.00">
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Offer Price</label>
+                            <input type="text" name="offer_price" value="{{ $product->offer_price }}" class="form-control"  placeholder="00.00">
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">SKU Code</label>
+                            <input type="text" name="sku_code" value="{{ $product->sku_code }}" class="form-control" placeholder="sku Code">
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Quantity</label>
+                            <input type="text" name="quantity" value="{{ $product->quantity }}" class="form-control" placeholder="Quantity">
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label">Youtube video Link</label>
+                            <input type="text" name="video_link" value="{{ $product->video_link }}" class="form-control">
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label">Is Featured</label>
+                            <select class="form-select" name="is_featured">
+                              <option value="" selected disabled>Please select the Featured Status</option>
+                              <option value="1" @if ( $product->is_featured == 1 ) selected @endif>Yes</option>
+                              <option value="0" @if ( $product->is_featured == 0 ) selected @endif>No</option>
+                          </select>
+                        </div>
+
+                        <div class="mb-3">
+                          <label class="form-label">Active Status</label>
+                            <select class="form-select" name="status" required='required'>
+                              <option value="" selected disabled>Please Select the status</option>
+                              <option value="1" @if ( $product->status == 1 ) selected @endif>Active</option>
+                              <option value="2" @if ( $product->status == 2 ) selected @endif>Inactive</option>
+                            </select>
+                        </div>
+
+                        <div class="col-12">
+                            <label for="inputProductTags" class="form-label">Product Tags</label>
+                            <input type="text" name="tags" value="{{ $product->tags }}" class="form-control" id="inputProductTags" placeholder="Enter Product Tags">
+                        </div>
+
+                        <div class="col-12">
+                          <div class="d-grid">
+                              <input type="submit" class="btn btn-primary" value="Save Changes" />
+                          </div>
+                        </div>
+                      </div> 
+                  </div>
+                </div>
+              </div>
+            </form>
+              <!--end row-->
+      </div>
     </div>
+  </div>
 </div>
 
 @endsection
@@ -66,10 +164,57 @@
 
 
 @section('script')
-  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-  <script>
-    $(document).ready(function() {
-      $('.selection').select2();
-    });
-  </script>
+
+<script>
+  const fileUploader = document.querySelector('#fileUploader');
+  const fileNameElement = document.querySelector('.file_name');
+  
+  fileUploader.addEventListener('change', (e) => {
+      const fileName = e.target.files[0].name;
+      console.log(e.target.files[0]);
+      fileNameElement.textContent = fileName;
+      fileNameElement.classList.remove('d-none');
+  });
+</script>
+
+<script type="text/javascript">
+
+    $('#category_id').change(function() {
+          var categoryId = $('#category_id').val();
+
+          //  alert(categoryId); or console.log(categoryId);
+          var option = "";
+
+        if(categoryId != 0 && categoryId != ""){
+          $.get("http://127.0.0.1:8000/api/get-subCat/" + categoryId, function(data){
+              var dataElement = JSON.parse(data);
+              console.log(dataElement);
+
+              if( dataElement.length >= 1 ){
+                  dataElement.forEach(function( element ){
+                    option += "<option value='" + element.id + "'>" + element.name + "</option>";
+                  });
+                  $("#subCategory_id").html(option);
+              }
+              else{
+                $("#subCategory_id").html("<option>Sub Category not avilable</option>");
+              }
+          })
+        }
+
+
+       // 2nd way to fetch api data using jquery ajax 
+      //  $.get("http://127.0.0.1:8000/api/get-subCat/" + categoryId, function(data){
+      //      var dataElement = JSON.parse(data);
+      //      console.log(dataElement);
+
+      //      $("#subCategory_id").empty();
+      //      dataElement.forEach(function( element ){
+      //         $("#subCategory_id").append("<option value='" + element.id + "'>" + element.name + "</option>");
+      //      });
+      //   })
+    })
+
+</script>
+
 @endsection

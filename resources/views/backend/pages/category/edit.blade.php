@@ -49,6 +49,7 @@
                       <div class="mb-3">
                         <label for="formFile" class="form-label">Category Logo</label>
                         <input class="form-control" name="image" type="file" id="formFile">
+                        <img src="{{ asset("uploads/categories/" . $category->image) }}" alt="">
                       </div>
 
                       <input type="submit" class="btn btn-primary" value="Update Brand" />
