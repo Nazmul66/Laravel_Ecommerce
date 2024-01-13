@@ -23,4 +23,7 @@
     <!-- Theme css -->
     <link rel="stylesheet" type="text/css" href="{{ asset('frontend/assets/css/style.css') }}">
 
+    <!-- Custom css -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('frontend/assets/css/custom.css') }}">
+
  @yield('css')

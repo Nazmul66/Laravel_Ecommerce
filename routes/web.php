@@ -36,17 +36,21 @@ Route::get('/about', [PageController::class, 'about'])->name('aboutPage');
 Route::get('/contact', [PageController::class, 'contact'])->name('contactPage');
 Route::get('/404-not-found', [PageController::class, 'error404'])->name('errorPage');
 
-
-// product pages
-Route::get('/all-product', [productPageController::class, 'allProducts'])->name('allProduct');
-Route::get('/offer-product', [productPageController::class, 'offerProducts'])->name('offerProduct');
-
-
 // user auth pages
 Route::get('/user-login', [dashboardController::class, 'userLogin'])->name('user-login');
 Route::get('/user-register', [dashboardController::class, 'userRegister'])->name('user-register');
 Route::get('/my-dashboard', [dashboardController::class, 'userDashboard'])->name('user-dashboard');
 Route::get('/my-profile', [dashboardController::class, 'userProfile'])->name('user-profile');
+
+// product pages
+Route::get('/all-product', [productPageController::class, 'allProducts'])->name('allProduct');
+Route::get('/productDetails/{slug}', [productPageController::class, 'productDetails'])->name('productDetails');
+Route::get('/offer-product', [productPageController::class, 'offerProducts'])->name('offerProduct');
+
+// category pages
+Route::get('/category/{slug}', [productPageController::class, 'categoryProducts'])->name('category.product');
+
+
 
 
 

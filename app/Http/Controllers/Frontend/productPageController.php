@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Product;
+use App\Models\Category;
+use App\Models\SubCategory;
 
 class productPageController extends Controller
 {
@@ -12,8 +15,35 @@ class productPageController extends Controller
      */
     public function allProducts()
     {
-        return view('frontend.pages.product.all-products');
+        $products = Product::where('status', 1)->get(); 
+        return view('frontend.pages.product.all-products', compact("products"));
     }
+
+
+    public function categoryProducts(string $slug)
+    {
+        $category = Category::where('slug', $slug)->first();
+        $subCat   = SubCategory::where('slug', $slug)->first();
+        // dd($subCat);
+
+        if( !empty($category->id) ){
+            $products = Product::orderBy("id", "desc")->where('category_id', $category->id)->where('status', 1)->get(); 
+            return view('frontend.pages.product.all-products', compact('products'));
+        }
+        else if( !empty($subCat->id) ){
+            $products = Product::orderBy("id", "desc")->where('subCategory_id', $subCat->id)->where('status', 1)->get(); 
+            return view('frontend.pages.product.all-products', compact('products'));
+        }
+
+    }
+
+
+    public function productDetails(string $slug)
+    {
+        $productDetails = Product::where("slug", $slug)->first();
+        return view('frontend.pages.product.product-details', compact('productDetails'));
+    }
+
 
     /**
      * offer product pages
