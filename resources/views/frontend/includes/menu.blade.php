@@ -170,8 +170,10 @@
                                                     </div>
                                                 </li>
                                                 <li>
-                                                    <div class="buttons"><a href="cart.html" class="view-cart">view
-                                                            cart</a> <a href="#" class="checkout">checkout</a></div>
+                                                    <div class="buttons">
+                                                        <a href="{{ route('cart.manage') }}" class="view-cart">view cart</a> 
+                                                        <a href="#" class="checkout">checkout</a>
+                                                    </div>
                                                 </li>
                                             </ul>
                                         </li>

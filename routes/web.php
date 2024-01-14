@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Frontend\PageController;
 use App\Http\Controllers\Frontend\productPageController;
 use App\Http\Controllers\Frontend\dashboardController;
+use App\Http\Controllers\Frontend\CartController;
 
 
 // Backend Controller 
@@ -36,19 +37,31 @@ Route::get('/about', [PageController::class, 'about'])->name('aboutPage');
 Route::get('/contact', [PageController::class, 'contact'])->name('contactPage');
 Route::get('/404-not-found', [PageController::class, 'error404'])->name('errorPage');
 
+
 // user auth pages
 Route::get('/user-login', [dashboardController::class, 'userLogin'])->name('user-login');
 Route::get('/user-register', [dashboardController::class, 'userRegister'])->name('user-register');
 Route::get('/my-dashboard', [dashboardController::class, 'userDashboard'])->name('user-dashboard');
 Route::get('/my-profile', [dashboardController::class, 'userProfile'])->name('user-profile');
 
+
 // product pages
 Route::get('/all-product', [productPageController::class, 'allProducts'])->name('allProduct');
 Route::get('/productDetails/{slug}', [productPageController::class, 'productDetails'])->name('productDetails');
 Route::get('/offer-product', [productPageController::class, 'offerProducts'])->name('offerProduct');
 
+
 // category pages
 Route::get('/category/{slug}', [productPageController::class, 'categoryProducts'])->name('category.product');
+
+
+// cart page routes
+Route::group(['prefix' => '/carts'], function (){
+    Route::get('/', [CartController::class, 'manage'])->name('cart.manage');
+    Route::post('/store', [CartController::class, 'store'])->name('cart.store');
+    Route::post('/update/{id}', [CartController::class, 'update'])->name('cart.update');
+    Route::get('/delete/{id}', [CartController::class, 'destroy'])->name('cart.destroy');
+});
 
 
 

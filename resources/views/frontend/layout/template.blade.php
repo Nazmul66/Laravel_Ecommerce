@@ -17,13 +17,9 @@
 
 
     @include('frontend.includes.footer')
-    @include('frontend.includes.script')
-
     @yield('footer-content')
-    
-    @section('script')
-        
-    @endsection
+
+    @include('frontend.includes.script')
 
 </body>
 

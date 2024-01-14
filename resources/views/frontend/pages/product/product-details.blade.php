@@ -165,35 +165,20 @@
 
 
                                 <h6 class="product-title">quantity</h6>
-                                <!-- price increase and decrease start -->
-                                <div class="qty-box">
-                                    <div class="input-group">
-                                        <span class="input-group-prepend">
-                                            <button type="button" class="btn quantity-left-minus" data-type="minus" data-field="">
-                                            <i class="ti-angle-left"></i></button> 
-                                       </span>
-
-                                        <input type="text" name="quantity" class="form-control input-number" value="1">
-
-                                        <span class="input-group-prepend">
-                                            <button type="button" class="btn quantity-right-plus" data-type="plus" data-field=""><i class="ti-angle-right"></i></button>
-                                        </span>
-                                    </div>
-                                </div>
-                                <!-- price increase and decrease end -->
                             </div>
 
                             
                             <!-- add to cart and wishlist start -->
                             <div class="product-buttons">
-                                <a href="javascript:void(0)" id="cartEffect" class="btn btn-solid hover-solid btn-animation">
-                                    <i class="fa fa-shopping-cart me-1" aria-hidden="true"></i> 
-                                    add to cart
-                                </a> 
+                               <div class="d-flex align-items-end gap-3">
+                                    @include('frontend.pages.product.carts_button.cart_button')
 
-                                <a href="#" class="btn btn-solid">
-                                    <i class="fa fa-bookmark fz-16 me-2" aria-hidden="true"></i>wishlist
-                                </a>
+                                    <form action="" method="post" class="mt-3">
+                                        <button type="submit" class="btn btn-solid">
+                                            <i class="fa fa-bookmark fz-16 me-2" aria-hidden="true"></i>wishlist
+                                        </button>
+                                    </form>
+                               </div>
                             </div>
                             <!-- add to cart and wishlist end -->
 
