@@ -63,18 +63,19 @@
                             </tr>
                         </thead>
 
+                    @foreach ($carts as $cart)
                         <tbody>
                             <tr>
                                 <td>
                                     <a href="#"><img src="{{ asset('frontend/assets/images/pro3/2.jpg') }}" alt=""></a>
                                 </td>
-                                <td><a href="#">cotton shirt</a>
+                                <td>
+                                    <a href="{{ route('productDetails', $cart->product->slug) }}">{{ $cart->product->title }}</a>
                                     <div class="mobile-cart-content row">
                                         <div class="col">
                                             <div class="qty-box">
                                                 <div class="input-group">
-                                                    <input type="text" name="quantity" class="form-control input-number"
-                                                        value="1">
+                                                   <input type="text" name="quantity" class="form-control input-number" value="1">
                                                 </div>
                                             </div>
                                         </div>
@@ -88,106 +89,38 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <h2>$63.00</h2>
+                                    <h2>
+                                        @if( !is_null( $cart->product->offer_price ) )
+                                        ৳ {{ $cart->product->offer_price }}
+                                        @else
+                                        ৳ {{ $cart->product->regular_price }}
+                                        @endif
+                                    </h2>
                                 </td>
                                 <td>
                                     <div class="qty-box">
                                         <div class="input-group">
-                                            <input type="number" name="quantity" class="form-control input-number"
-                                                value="1">
+                                            <input type="number" name="quantity" class="form-control input-number" value={{ $cart->product_quantity }}>
                                         </div>
                                     </div>
                                 </td>
-                                <td><a href="#" class="icon"><i class="ti-close"></i></a></td>
                                 <td>
-                                    <h2 class="td-color">$4539.00</h2>
+                                    <a href="{{ route('cart.destroy', $cart->id) }}" class="icon">
+                                        <i class="ti-close"></i>
+                                    </a>
+                                </td>
+                                <td>
+                                    <h2 class="td-color">
+                                        @if( !is_null( $cart->product->offer_price ) )
+                                        ৳ {{ $cart->product->offer_price * $cart->product_quantity }}
+                                        @else
+                                        ৳ {{ $cart->product->regular_price * $cart->product_quantity }}
+                                        @endif
+                                    </h2>
                                 </td>
                             </tr>
                         </tbody>
-
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <a href="#"><img src="{{ asset('frontend/assets/images/pro3/35.jpg') }}" alt=""></a>
-                                </td>
-                                <td><a href="#">cotton shirt</a>
-                                    <div class="mobile-cart-content row">
-                                        <div class="col">
-                                            <div class="qty-box">
-                                                <div class="input-group">
-                                                    <input type="number" name="quantity"
-                                                        class="form-control input-number" value="1">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col">
-                                            <h2 class="td-color">$63.00</h2>
-                                        </div>
-                                        <div class="col">
-                                            <h2 class="td-color"><a href="#" class="icon"><i class="ti-close"></i></a>
-                                            </h2>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <h2>$63.00</h2>
-                                </td>
-                                <td>
-                                    <div class="qty-box">
-                                        <div class="input-group">
-                                            <input type="number" name="quantity" class="form-control input-number"
-                                                value="1">
-                                        </div>
-                                    </div>
-                                </td>
-                                <td><a href="#" class="icon"><i class="ti-close"></i></a></td>
-                                <td>
-                                    <h2 class="td-color">$4539.00</h2>
-                                </td>
-                            </tr>
-                        </tbody>
-
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <a href="#"><img src="{{ asset('frontend/assets/images/pro3/33.jpg') }}" alt=""></a>
-                                </td>
-                                <td><a href="#">cotton shirt</a>
-                                    <div class="mobile-cart-content row">
-                                        <div class="col">
-                                            <div class="qty-box">
-                                                <div class="input-group">
-                                                    <input type="number" name="quantity"
-                                                        class="form-control input-number" value="1">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col">
-                                            <h2 class="td-color">$63.00</h2>
-                                        </div>
-                                        <div class="col">
-                                            <h2 class="td-color"><a href="#" class="icon"><i class="ti-close"></i></a>
-                                            </h2>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <h2>$63.00</h2>
-                                </td>
-                                <td>
-                                    <div class="qty-box">
-                                        <div class="input-group">
-                                            <input type="number" name="quantity" class="form-control input-number"
-                                                value="1">
-                                        </div>
-                                    </div>
-                                </td>
-                                <td><a href="#" class="icon"><i class="ti-close"></i></a></td>
-                                <td>
-                                    <h2 class="td-color">$4539.00</h2>
-                                </td>
-                            </tr>
-                        </tbody>
+                      @endforeach
 
                     </table>
 
@@ -197,7 +130,7 @@
                                 <tr>
                                     <td>total price :</td>
                                     <td>
-                                        <h2>$6935.00</h2>
+                                        <h2>৳ {{ App\Models\Cart::totalAmount() }}</h2>
                                     </td>
                                 </tr>
                             </tfoot>
@@ -206,7 +139,7 @@
                 </div>
             </div>
             <div class="row cart-buttons">
-                <div class="col-6"><a href="#" class="btn btn-solid">continue shopping</a></div>
+                <div class="col-6"><a href="{{ route('allProduct') }}" class="btn btn-solid">continue shopping</a></div>
                 <div class="col-6"><a href="#" class="btn btn-solid">check out</a></div>
             </div>
         </div>

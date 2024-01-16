@@ -23,6 +23,9 @@
     <!-- Theme css -->
     <link rel="stylesheet" type="text/css" href="{{ asset('frontend/assets/css/style.css') }}">
 
+    <!-- toaster Js plugins  -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
     <!-- Custom css -->
     <link rel="stylesheet" type="text/css" href="{{ asset('frontend/assets/css/custom.css') }}">
 

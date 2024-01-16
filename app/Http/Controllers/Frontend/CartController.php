@@ -15,7 +15,13 @@ class CartController extends Controller
      */
     public function manage()
     {
-        return view('frontend.pages.order.cart');
+        if( Auth::check() ){
+            $carts = Cart::where('user_id', Auth::id())->where("order_id", NULL)->get();
+        }
+        else{
+            $carts = Cart::where('ip_address', request()->ip())->where("order_id", NULL)->get();
+        }
+        return view('frontend.pages.order.cart', compact('carts'));
     }
 
     /**
@@ -32,12 +38,20 @@ class CartController extends Controller
         
 
         if( !is_null( $cart ) ){
-            $cart->increment('product_quantity');
+            if( !is_null( $request->product_quantity ) ){
+                $cart->product_quantity =  $cart->product_quantity + $request->product_quantity;
+            }
+            else{
+                $cart->increment('product_quantity');
+            }
+
+            $cart->save();
 
             $notification = array(
                 'message'    => "Item added to cart",
                 'alert-type' => "success",
             );
+
     
             return redirect()->back()->with($notification); 
         }
@@ -95,6 +109,14 @@ class CartController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $cartDel = Cart::find($id);
+        $cartDel->delete();
+
+        $notification = array(
+            'message'    => "Cart items has been delete",
+            'alert-type' => "error",
+        );
+
+        return redirect()->back()->with($notification); 
     }
 }

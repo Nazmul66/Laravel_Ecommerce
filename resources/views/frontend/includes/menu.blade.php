@@ -58,132 +58,148 @@
 
         <!-- header second part -->
         <div class="container">
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="main-menu">
-                        <div class="menu-left">
-                            <div class="brand-logo">
-                                <a href="index.html"><img src="{{ asset('frontend/assets/images/icon/logo/37.png') }}" class="img-fluid blur-up lazyload" alt=""></a>
-                            </div>
-                        </div>
+          <div class="row">
+             <div class="col-sm-12">
+              <div class="main-menu">
+                <div class="menu-left">
+                 <div class="brand-logo">
+                    <a href="index.html"><img src="{{ asset('frontend/assets/images/icon/logo/37.png') }}" class="img-fluid blur-up lazyload" alt=""></a>
+                 </div>
+                </div>
 
-                        <div>
-                            <form class="form_search" role="form">
-                                <input id="query search-autocomplete" type="search"
-                                    placeholder="Search any Device or Gadgetsfrontend." class="nav-search nav-search-field"
-                                    aria-expanded="true">
-                                <button type="submit" name="nav-submit-button" class="btn-search">
-                                    <i class="ti-search"></i>
-                                </button>
-                            </form>
-                        </div>
+                <div>
+                    <form class="form_search" role="form">
+                        <input id="query search-autocomplete" type="search"
+                            placeholder="Search any Device or Gadgetsfrontend." class="nav-search nav-search-field"
+                            aria-expanded="true">
+                        <button type="submit" name="nav-submit-button" class="btn-search">
+                            <i class="ti-search"></i>
+                        </button>
+                    </form>
+                </div>
 
-                        <div class="menu-right pull-right">
-                            <div>
-                                <div class="icon-nav">
-                                    <ul>
-                                        <li class="onhover-div mobile-search d-xl-none d-inline-block">
-                                            <div><img src="{{ asset('frontend/assets/images/icon/search.png') }}" onclick="openSearch()"
-                                                    class="img-fluid blur-up lazyload" alt=""><i class="ti-search"
-                                                    onclick="openSearch()"></i></div>
-                                            <div id="search-overlay" class="search-overlay">
-                                                <div><span class="closebtn" onclick="closeSearch()"
-                                                        title="Close Overlay">×</span>
-                                                    <div class="overlay-content">
-                                                        <div class="container">
-                                                            <div class="row">
-                                                                <div class="col-xl-12">
-                                                                    <form>
-                                                                        <div class="form-group">
-                                                                            <input type="text" class="form-control"
-                                                                                id="exampleInputPassword1"
-                                                                                placeholder="Search a Product">
-                                                                        </div>
-                                                                        <button type="submit" class="btn btn-primary"><i
-                                                                                class="fa fa-search"></i>
-                                                                        </button>
-                                                                    </form>
-                                                                </div>
-                                                            </div>
+                <div class="menu-right pull-right">
+                  <div>
+                    <div class="icon-nav">
+                      <ul>
+                        <li class="onhover-div mobile-search d-xl-none d-inline-block">
+                            <div><img src="{{ asset('frontend/assets/images/icon/search.png') }}" onclick="openSearch()"
+                                    class="img-fluid blur-up lazyload" alt=""><i class="ti-search"
+                                    onclick="openSearch()"></i></div>
+                            <div id="search-overlay" class="search-overlay">
+                                <div><span class="closebtn" onclick="closeSearch()"
+                                        title="Close Overlay">×</span>
+                                    <div class="overlay-content">
+                                        <div class="container">
+                                            <div class="row">
+                                                <div class="col-xl-12">
+                                                    <form>
+                                                        <div class="form-group">
+                                                            <input type="text" class="form-control"
+                                                                id="exampleInputPassword1"
+                                                                placeholder="Search a Product">
                                                         </div>
-                                                    </div>
+                                                        <button type="submit" class="btn btn-primary"><i
+                                                                class="fa fa-search"></i>
+                                                        </button>
+                                                    </form>
                                                 </div>
                                             </div>
-                                        </li>
-                                        <li class="onhover-div mobile-setting">
-                                            <div><img src="{{ asset('frontend/assets/images/icon/setting.png') }}"
-                                                    class="img-fluid blur-up lazyload" alt=""><i
-                                                    class="ti-settings"></i></div>
-                                            <div class="show-div setting">
-                                                <h6>language</h6>
-                                                <ul>
-                                                    <li><a href="#">english</a></li>
-                                                    <li><a href="#">french</a></li>
-                                                </ul>
-                                                <h6>currency</h6>
-                                                <ul class="list-inline">
-                                                    <li><a href="#">euro</a></li>
-                                                    <li><a href="#">rupees</a></li>
-                                                    <li><a href="#">pound</a></li>
-                                                    <li><a href="#">doller</a></li>
-                                                </ul>
-                                            </div>
-                                        </li>
-
-                                        <li class="onhover-div mobile-cart">
-                                            <div><img src="{{ asset('frontend/assets/images/icon/cart.png') }} "
-                                                    class="img-fluid blur-up lazyload" alt=""><i
-                                                    class="ti-shopping-cart"></i></div>
-                                            <span class="cart_qty_cls">0</span>
-                                            <ul class="show-div shopping-cart">
-                                                <li>
-                                                    <div class="media">
-                                                        <a href="#"><img alt="" class="me-3"
-                                                                src="{{ asset('frontend/assets/images/fashion/product/1.jpg') }} "></a>
-                                                        <div class="media-body">
-                                                            <a href="#">
-                                                                <h4>item name</h4>
-                                                            </a>
-                                                            <h4><span>1 x $ 299.00</span></h4>
-                                                        </div>
-                                                    </div>
-                                                    <div class="close-circle"><a href="#"><i class="fa fa-times"
-                                                                aria-hidden="true"></i></a></div>
-                                                </li>
-                                                <li>
-                                                    <div class="media">
-                                                        <a href="#"><img alt="" class="me-3"
-                                                                src="{{ asset('frontend/assets/images/fashion/product/2.jpg') }} "></a>
-                                                        <div class="media-body">
-                                                            <a href="#">
-                                                                <h4>item name</h4>
-                                                            </a>
-                                                            <h4><span>1 x $ 299.00</span></h4>
-                                                        </div>
-                                                    </div>
-                                                    <div class="close-circle"><a href="#"><i class="fa fa-times"
-                                                                aria-hidden="true"></i></a></div>
-                                                </li>
-                                                <li>
-                                                    <div class="total">
-                                                        <h5>subtotal : <span>$299.00</span></h5>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div class="buttons">
-                                                        <a href="{{ route('cart.manage') }}" class="view-cart">view cart</a> 
-                                                        <a href="#" class="checkout">checkout</a>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                    </ul>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        </li>
+                        <li class="onhover-div mobile-setting">
+                            <div><img src="{{ asset('frontend/assets/images/icon/setting.png') }}"
+                                    class="img-fluid blur-up lazyload" alt=""><i
+                                    class="ti-settings"></i></div>
+                            <div class="show-div setting">
+                                <h6>language</h6>
+                                <ul>
+                                    <li><a href="#">english</a></li>
+                                    <li><a href="#">french</a></li>
+                                </ul>
+                                <h6>currency</h6>
+                                <ul class="list-inline">
+                                    <li><a href="#">euro</a></li>
+                                    <li><a href="#">rupees</a></li>
+                                    <li><a href="#">pound</a></li>
+                                    <li><a href="#">doller</a></li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="onhover-div mobile-cart">
+                            <div>
+                                <img src="{{ asset('frontend/assets/images/icon/cart.png') }}" class="img-fluid blur-up lazyload"><i class="ti-shopping-cart"></i>
+                            </div>
+                            <span class="cart_qty_cls">{{ App\Models\Cart::totalItems() }}</span>
+
+                            <!-- cart items amount show -->
+                            @if ( App\Models\Cart::totalItems() > 0 )
+                            <ul class="show-div shopping-cart">
+                                @foreach ( App\Models\Cart::totalCart() as $cart )
+                                    <li>
+                                        <div class="media">
+                                            <a href="#">
+                                                <img class="me-3" src="{{ asset('frontend/assets/images/fashion/product/1.jpg') }} ">
+                                            </a>
+                                            <div class="media-body">
+                                                <a href="#">
+                                                 {{-- <h4>
+                                                   @foreach ( App\Models\Product::where('id', $cart->product_id)->where('status', 1)->get() as $cartName)
+                                                      {{ $cartName->title }}
+                                                   @endforeach
+                                                </h4> OR --}} 
+                                                <h4>{{ $cart->Product->title }}</h4>
+                                                </a>
+                                                <h4><span>
+                                                    @if ( !is_null($cart->product->offer_price) )
+                                                      {{ $cart->product_quantity }} Pcs x ৳{{ $cart->product->offer_price }}
+                                                    @else
+                                                      {{ $cart->product_quantity }} Pcs x ৳{{ $cart->product->regular_price }}
+                                                    @endif
+                                                </span></h4>
+                                            </div>
+                                        </div>
+
+                                        <div class="close-circle">
+                                            <a href="{{ route('cart.destroy', $cart->id) }}">
+                                                <i class="fa fa-times" aria-hidden="true"></i>
+                                            </a>
+                                        </div>
+                                    </li>
+                                @endforeach
+                                <li>
+                                    <div class="total">
+                                        <h5>subtotal : <span>
+                                            ৳ {{ App\Models\Cart::totalAmount() }}    
+                                        </span></h5>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="buttons">
+                                        <a href="{{ route('cart.manage') }}" class="view-cart">view cart</a>
+                                        <a href="#" class="checkout">checkout</a>
+                                    </div>
+                                </li>
+                            </ul>
+                            @else
+                              <ul class="show-div shopping-cart">
+                                 <div class="alert bg-warning">Sorry ! No item added in your cart </div>
+                              </ul>
+                            @endif
+                            <!-- cart items amount show -->
+
+                        </li>
+                      </ul>
                     </div>
+                  </div>
                 </div>
+              </div>
             </div>
+          </div>
         </div>
 
         <!-- header third part -->
@@ -198,6 +214,7 @@
                                 <h5>400520</h5>
                             </div>
                         </div>
+
                         <div class="main-nav-center">
                             <nav id="main-nav" class="text-start">
                                 <div class="toggle-nav"><i class="fa fa-bars sidebar-bar"></i></div>
@@ -206,9 +223,11 @@
                                         <div class="mobile-back text-end">Back<i class="fa fa-angle-right ps-2"
                                                 aria-hidden="true"></i></div>
                                     </li>
+
                                     <li>
                                         <a href="{{ route('homepage') }}">Home</a>
                                     </li>
+
                                     <li>
                                         <a href="{{ route('allProduct') }}">All Products</a>
                                     </li>
