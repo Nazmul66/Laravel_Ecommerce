@@ -140,13 +140,19 @@
             </div>
             <div class="row cart-buttons">
                 <div class="col-6"><a href="{{ route('allProduct') }}" class="btn btn-solid">continue shopping</a></div>
-                <div class="col-6"><a href="#" class="btn btn-solid">check out</a></div>
+                 <div class="col-6">
+                    @if ( $carts->count() > 0 )
+                      <a href="{{ route('checkout') }}" class="btn btn-solid">check out</a>
+                    @endif
+                </div>
             </div>
         </div>
     </section>
     <!--section end-->
 
 @endsection
+
+
 
 
 @section('script')

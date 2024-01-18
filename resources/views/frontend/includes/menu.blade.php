@@ -181,7 +181,7 @@
                                 <li>
                                     <div class="buttons">
                                         <a href="{{ route('cart.manage') }}" class="view-cart">view cart</a>
-                                        <a href="#" class="checkout">checkout</a>
+                                        <a href="{{ route('checkout') }}" class="checkout">checkout</a>
                                     </div>
                                 </li>
                             </ul>

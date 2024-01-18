@@ -6,6 +6,7 @@ use App\Http\Controllers\Frontend\PageController;
 use App\Http\Controllers\Frontend\productPageController;
 use App\Http\Controllers\Frontend\dashboardController;
 use App\Http\Controllers\Frontend\CartController;
+use App\Http\Controllers\Payment\SslCommerzPaymentController;
 
 
 // Backend Controller 
@@ -63,6 +64,14 @@ Route::group(['prefix' => '/carts'], function (){
     Route::get('/delete/{id}', [CartController::class, 'destroy'])->name('cart.destroy');
 });
 
+// Checkout page routes
+Route::get('/checkout', [SslCommerzPaymentController::class, 'checkout'])->name('checkout');
+Route::post('/pay', [SslCommerzPaymentController::class, 'index'])->name('make.payment');
+
+Route::post('/success', [SslCommerzPaymentController::class, 'success']);
+Route::post('/fail', [SslCommerzPaymentController::class, 'fail']);
+Route::post('/cancel', [SslCommerzPaymentController::class, 'cancel']);
+Route::post('/ipn', [SslCommerzPaymentController::class, 'ipn']);
 
 
 
