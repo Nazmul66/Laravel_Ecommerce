@@ -1,13 +1,10 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
-use Illuminate\Support\Facades\Route;
-
-
 // Frontend Controller
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Frontend\PageController;
-use App\Http\Controllers\Frontend\ProductPageController;
-use App\Http\Controllers\Frontend\DashboardController;
+use App\Http\Controllers\Frontend\productPageController;
+use App\Http\Controllers\Frontend\dashboardController;
 use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Payment\SslCommerzPaymentController;
 
@@ -21,34 +18,6 @@ use App\Http\Controllers\Backend\CountryController;
 use App\Http\Controllers\Backend\DistrictController;
 use App\Http\Controllers\Backend\StateController;
 use App\Http\Controllers\Backend\ProductController;
-
-
-/*
-|--------------------------------------------------------------------------
-| Web Auth Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
-
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-
-// Route::get('/dashboard', function () {
-//     return view('dashboard');
-// })->middleware(['auth', 'verified'])->name('dashboard');
-
-// Route::middleware('auth')->group(function () {
-//     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-//     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-//     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-// });
-
-require __DIR__.'/auth.php';
 
 
 
@@ -71,20 +40,20 @@ Route::get('/404-not-found', [PageController::class, 'error404'])->name('errorPa
 
 
 // user auth pages
-Route::get('/user-login', [DashboardController::class, 'userLogin'])->name('user-login');
-Route::get('/user-register', [DashboardController::class, 'userRegister'])->name('user-register');
-Route::get('/my-dashboard', [DashboardController::class, 'userDashboard'])->name('user-dashboard');
-Route::get('/my-profile', [DashboardController::class, 'userProfile'])->name('user-profile');
+Route::get('/user-login', [dashboardController::class, 'userLogin'])->name('user-login');
+Route::get('/user-register', [dashboardController::class, 'userRegister'])->name('user-register');
+Route::get('/my-dashboard', [dashboardController::class, 'userDashboard'])->name('user-dashboard');
+Route::get('/my-profile', [dashboardController::class, 'userProfile'])->name('user-profile');
 
 
 // product pages
-Route::get('/all-product', [ProductPageController::class, 'allProducts'])->name('allProduct');
-Route::get('/productDetails/{slug}', [ProductPageController::class, 'productDetails'])->name('productDetails');
-Route::get('/offer-product', [ProductPageController::class, 'offerProducts'])->name('offerProduct');
+Route::get('/all-product', [productPageController::class, 'allProducts'])->name('allProduct');
+Route::get('/productDetails/{slug}', [productPageController::class, 'productDetails'])->name('productDetails');
+Route::get('/offer-product', [productPageController::class, 'offerProducts'])->name('offerProduct');
 
 
 // category pages
-Route::get('/category/{slug}', [ProductPageController::class, 'categoryProducts'])->name('category.product');
+Route::get('/category/{slug}', [productPageController::class, 'categoryProducts'])->name('category.product');
 
 
 // cart page routes
@@ -103,6 +72,7 @@ Route::post('/success', [SslCommerzPaymentController::class, 'success']);
 Route::post('/fail', [SslCommerzPaymentController::class, 'fail']);
 Route::post('/cancel', [SslCommerzPaymentController::class, 'cancel']);
 Route::post('/ipn', [SslCommerzPaymentController::class, 'ipn']);
+
 
 
 

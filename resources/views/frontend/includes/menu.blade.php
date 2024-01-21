@@ -40,16 +40,52 @@
                     </div>
                     <div class="col-lg-6 text-end">
                         <ul class="header-dropdown">
-                            <li class="mobile-wishlist pe-0"><a href="#"><i class="fa fa-heart"
-                                        aria-hidden="true"></i></a>
+                            <li class="mobile-wishlist pe-0">
+                                <a href="#"><i class="fa fa-heart" aria-hidden="true"></i>
+                                </a>
                             </li>
-                            <li class="onhover-dropdown mobile-account"><i class="fa fa-user" aria-hidden="true"></i>
-                                My Account
-                                <ul class="onhover-show-div">
-                                    <li><a href="{{ asset('user-login') }}">Login</a></li>
-                                    <li><a href="{{ asset('user-register') }}">register</a></li>
-                                </ul>
-                            </li>
+
+
+                            @if ( Auth::check() )
+                                <li class="onhover-dropdown mobile-account">
+                                    <i class="fa fa-user" aria-hidden="true"></i>
+                                    {{ Auth::user()->name }}
+                                    <ul class="onhover-show-div">
+                                        <li>
+                                            <a href="">Dashboard</a>
+                                        </li>
+                                        <li>
+                                            <a href="">Profile</a>
+                                        </li>
+                                        <li>
+                                            <form method="POST" action="{{ route('logout') }}">
+                                                @csrf
+                                                <a href="{{ route('logout') }}" onclick="event.preventDefault(); this.closest('form').submit();">
+                                                    <i class='bx bx-log-out-circle'>
+                                                    </i><span>Logout</span>
+                                                </a>
+                                            </form>
+                                        </li>
+                                    </ul>
+                                </li>
+
+                            @else
+                                <li class="onhover-dropdown mobile-account">
+                                    <i class="fa fa-user" aria-hidden="true"></i>
+                                     My Account
+                                    <ul class="onhover-show-div">
+                                        <li>
+                                            <a href="{{ asset('user-login') }}">Login</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ asset('user-register') }}">register</a>
+                                        </li>
+                                    </ul>
+                                </li>
+
+                            @endif
+                            
+
                         </ul>
                     </div>
                 </div>

@@ -18,7 +18,7 @@
                 <div class="col-sm-6">
                     <nav aria-label="breadcrumb" class="theme-breadcrumb">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                            <li class="breadcrumb-item"><a href="{{ route('homepage') }}">Home</a></li>
                             <li class="breadcrumb-item active" aria-current="page">create account</li>
                         </ol>
                     </nav>
@@ -58,7 +58,8 @@
                                     <label for="review">Password</label>
                                     <input type="password" class="form-control" id="review"
                                         placeholder="Enter your password" required="">
-                                </div><a href="#" class="btn btn-solid w-auto">create Account</a>
+                                </div>
+                                <a href="{{ route('user-login') }}" class="btn btn-solid w-auto">create Account</a>
                             </div>
                         </form>
                     </div>
