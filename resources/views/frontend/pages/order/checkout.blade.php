@@ -23,7 +23,7 @@
                 <div class="col-sm-6">
                     <nav aria-label="breadcrumb" class="theme-breadcrumb">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                            <li class="breadcrumb-item"><a href="{{ route('homepage') }}">Home</a></li>
                             <li class="breadcrumb-item active" aria-current="page">Check-out</li>
                         </ol>
                     </nav>
@@ -33,6 +33,7 @@
     </div>
     <!-- breadcrumb End -->
 
+    
     <!-- section start -->
     <section class="section-b-space">
         <div class="container">

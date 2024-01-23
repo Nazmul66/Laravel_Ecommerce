@@ -24,7 +24,7 @@
                 <div class="col-sm-6">
                     <nav aria-label="breadcrumb" class="theme-breadcrumb">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                            <li class="breadcrumb-item"><a href="{{ route('homepage') }}">Home</a></li>
                             <li class="breadcrumb-item active" aria-current="page">dashboard</li>
                         </ol>
                     </nav>
@@ -48,8 +48,8 @@
                                 <img src="{{ asset('frontend/assets/images/avtar.jpg') }}" alt="" class="img-fluid">
                             </div>
                             <div class="profile-detail">
-                                <h5>Mark Jecno</h5>
-                                <h6>mark.jecno@mail.com</h6>
+                                <h5>{{ Auth::user()->name }}</h5>
+                                <h6>{{ Auth::user()->email }}</h6>
                             </div>
                         </div>
                         <div class="faq-tab">
@@ -73,6 +73,7 @@
                         </div>
                     </div>
                 </div>
+                <!-- tabs menu -->
 
                 <div class="col-lg-9">
                     <div class="faq-content tab-content" id="top-tabContent">
@@ -81,7 +82,7 @@
                         <div class="tab-pane fade show active" id="info">
                             <div class="counter-section">
                                 <div class="welcome-msg">
-                                    <h4>Hello, MARK JECNO !</h4>
+                                    <h4>Hello, {{ Auth::user()->name }} !</h4>
                                     <p>From your My Account Dashboard you have the ability to view a snapshot of your
                                         recent
                                         account activity and update your account information. Select a link below to
@@ -125,12 +126,13 @@
                                         <div class="col-sm-6">
                                             <div class="box">
                                                 <div class="box-title">
-                                                    <h3>Contact Information</h3><a href="#">Edit</a>
+                                                    <h3>Contact Information</h3><a href="{{ route('user-profile') }}">Edit</a>
                                                 </div>
                                                 <div class="box-content">
-                                                    <h6>Mark Jecno</h6>
-                                                    <h6>mark-jecno@gmail.com</h6>
-                                                    <h6><a href="#">Change Password</a></h6>
+                                                    <h6>{{ Auth::user()->name }}</h6>
+                                                    <h6>{{ Auth::user()->email }}</h6>
+                                                    <h6>{{ Auth::user()->phone }}</h6>
+                                                    <h6><a href="{{ route('user-profile') }}">Change Password</a></h6>
                                                 </div>
                                             </div>
                                         </div>
@@ -147,18 +149,56 @@
                                     </div>
                                     <div class="box mt-3">
                                         <div class="box-title">
-                                            <h3>Address Book</h3><a href="#">Manage Addresses</a>
+                                            <h3>Address Book</h3><a href="{{ route('user-profile') }}">Manage Addresses</a>
                                         </div>
                                         <div class="row">
                                             <div class="col-sm-6">
                                                 <h6>Default Billing Address</h6>
-                                                <address>You have not set a default billing address.<br><a href="#">Edit
-                                                        Address</a></address>
+                                                <address>
+                                                    @if ( !empty( Auth::user()->address_line1 ) )
+                                                       {{ Auth::user()->address_line1 }}
+
+                                                        @if (!empty( Auth::user()->address_line2 ))
+                                                           {{ Auth::user()->address_line2 }} 
+                                                        @endif
+
+                                                        @if (!empty( Auth::user()->division_id ))
+                                                           {{ Auth::user()->division_id }} 
+                                                        @endif
+
+                                                        @if (!empty( Auth::user()->district_id ))
+                                                           {{ Auth::user()->district_id }} 
+                                                        @endif
+
+                                                    @else
+                                                      You have not set a default billing address.
+                                                    @endif
+                                                    <br><a href="{{ route('user-profile') }}">Edit Address</a>
+                                                </address>
                                             </div>
                                             <div class="col-sm-6">
                                                 <h6>Default Shipping Address</h6>
-                                                <address>You have not set a default shipping address.<br><a
-                                                        href="#">Edit Address</a></address>
+                                                <address>
+                                                    @if ( !empty( Auth::user()->address_line1 ) )
+                                                       {{ Auth::user()->address_line1 }}
+
+                                                        @if (!empty( Auth::user()->address_line2 ))
+                                                           {{ Auth::user()->address_line2 }} 
+                                                        @endif
+
+                                                        @if (!empty( Auth::user()->division_id ))
+                                                           {{ Auth::user()->division_id }} 
+                                                        @endif
+
+                                                        @if (!empty( Auth::user()->district_id ))
+                                                           {{ Auth::user()->district_id }} 
+                                                        @endif
+
+                                                    @else
+                                                      You have not set a default shipping address.
+                                                    @endif
+                                                    <br><a href="{{ route('user-profile') }}">Edit Address</a>
+                                                </address>
                                             </div>
                                         </div>
                                     </div>
@@ -481,27 +521,41 @@
                                             <div class="dashboard-box">
                                                 <div class="dashboard-title">
                                                     <h4>profile</h4>
-                                                    <a class="edit-link" href="#">edit</a>
+                                                    <a class="edit-link" href="{{ route('user-profile') }}">edit</a>
                                                 </div>
                                                 <div class="dashboard-detail">
                                                     <ul>
                                                         <li>
                                                             <div class="details">
                                                                 <div class="left">
-                                                                    <h6>company name</h6>
+                                                                    <h6>Your name</h6>
                                                                 </div>
                                                                 <div class="right">
-                                                                    <h6>Fashion Store</h6>
+                                                                    <h6>{{ Auth::user()->name }}</h6>
                                                                 </div>
                                                             </div>
                                                         </li>
                                                         <li>
                                                             <div class="details">
                                                                 <div class="left">
-                                                                    <h6>email address</h6>
+                                                                    <h6>Email address</h6>
                                                                 </div>
                                                                 <div class="right">
-                                                                    <h6>mark.jecno@gmail.com</h6>
+                                                                    <h6>{{ Auth::user()->email }}</h6>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <div class="details">
+                                                                <div class="left">
+                                                                    <h6>Phone Number</h6>
+                                                                </div>
+                                                                <div class="right">
+                                                                    <h6>
+                                                                        @if ( !is_null( Auth::user()->phone ))
+                                                                        {{ Auth::user()->phone }}
+                                                                        @endif
+                                                                    </h6>
                                                                 </div>
                                                             </div>
                                                         </li>
@@ -511,37 +565,17 @@
                                                                     <h6>Country / Region</h6>
                                                                 </div>
                                                                 <div class="right">
-                                                                    <h6>Downers Grove, IL</h6>
-                                                                </div>
-                                                            </div>
-                                                        </li>
-                                                        <li>
-                                                            <div class="details">
-                                                                <div class="left">
-                                                                    <h6>Year Established</h6>
-                                                                </div>
-                                                                <div class="right">
-                                                                    <h6>2018</h6>
-                                                                </div>
-                                                            </div>
-                                                        </li>
-                                                        <li>
-                                                            <div class="details">
-                                                                <div class="left">
-                                                                    <h6>Total Employees</h6>
-                                                                </div>
-                                                                <div class="right">
-                                                                    <h6>101 - 200 People</h6>
-                                                                </div>
-                                                            </div>
-                                                        </li>
-                                                        <li>
-                                                            <div class="details">
-                                                                <div class="left">
-                                                                    <h6>category</h6>
-                                                                </div>
-                                                                <div class="right">
-                                                                    <h6>clothing</h6>
+                                                                    <h6>
+                                                                        @if ( !is_null( Auth::user()->country_id ))
+                                                                        @foreach ($countries as $country)
+                                                                            @if ($country->id == Auth::user()
+                                                                            ->country_id )
+                                                                                {{ $country->name }}
+                                                                            @endif
+                                                                        @endforeach
+                                                                       
+                                                                        @endif
+                                                                    </h6>
                                                                 </div>
                                                             </div>
                                                         </li>
@@ -551,7 +585,14 @@
                                                                     <h6>street address</h6>
                                                                 </div>
                                                                 <div class="right">
-                                                                    <h6>549 Sulphur Springs Road</h6>
+                                                                    <h6>
+                                                                        @if ( !is_null( Auth::user()->address_line1 ))
+                                                                        {{ Auth::user()->address_line1 }},
+                                                                            @if ( !is_null( Auth::user()->address_line2 ))
+                                                                            {{ Auth::user()->address_line2 }}
+                                                                            @endif
+                                                                        @endif
+                                                                    </h6>
                                                                 </div>
                                                             </div>
                                                         </li>
@@ -561,7 +602,16 @@
                                                                     <h6>city/state</h6>
                                                                 </div>
                                                                 <div class="right">
-                                                                    <h6>Downers Grove, IL</h6>
+                                                                    <h6>
+                                                                        @if ( !is_null( Auth::user()->district_id ))
+                                                                        @foreach ($districts as $district)
+                                                                            @if ($district->id == Auth::user()
+                                                                            ->district_id )
+                                                                                {{ $district->name }}
+                                                                            @endif
+                                                                        @endforeach
+                                                                        @endif
+                                                                    </h6>
                                                                 </div>
                                                             </div>
                                                         </li>
@@ -571,7 +621,11 @@
                                                                     <h6>zip</h6>
                                                                 </div>
                                                                 <div class="right">
-                                                                    <h6>60515</h6>
+                                                                    <h6>
+                                                                        @if ( !is_null( Auth::user()->zipCode ))
+                                                                        {{ Auth::user()->zipCode }}
+                                                                        @endif
+                                                                    </h6>
                                                                 </div>
                                                             </div>
                                                         </li>
@@ -579,7 +633,7 @@
                                                 </div>
                                                 <div class="dashboard-title mt-lg-5 mt-3">
                                                     <h4>login details</h4>
-                                                    <a class="edit-link" href="#">edit</a>
+                                                    <a class="edit-link" href="{{ route('user-profile') }}">edit</a>
                                                 </div>
                                                 <div class="dashboard-detail">
                                                     <ul>
@@ -589,7 +643,7 @@
                                                                     <h6>Email Address</h6>
                                                                 </div>
                                                                 <div class="right">
-                                                                    <h6>mark.jecno@gmail.com <a class="edit-link" href="#">edit</a>
+                                                                    <h6>{{ Auth::user()->email }}<a class="edit-link" href="{{ route('user-profile') }}">edit</a>
                                                                     </h6>
                                                                 </div>
                                                             </div>
@@ -600,7 +654,9 @@
                                                                     <h6>Phone No.</h6>
                                                                 </div>
                                                                 <div class="right">
-                                                                    <h6>+01 4485 5454<a class="edit-link"  href="#">Edit</a>
+                                                                    <h6>
+                                                                        {{ Auth::user()->phone }}
+                                                                    <a class="edit-link" href="{{ route('user-profile') }}">Edit</a>
                                                                     </h6>
                                                                 </div>
                                                             </div>
@@ -611,7 +667,7 @@
                                                                     <h6>Password</h6>
                                                                 </div>
                                                                 <div class="right">
-                                                                    <h6>******* <a class="edit-link" href="#">Edit</a>
+                                                                    <h6>******* <a class="edit-link" href="{{ route('user-profile') }}">Edit</a>
                                                                     </h6>
                                                                 </div>
                                                             </div>

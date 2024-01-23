@@ -76,6 +76,8 @@ Route::get('/user-register', [DashboardController::class, 'userRegister'])->name
 Route::get('/user-forget', [DashboardController::class, 'userForget'])->name('user-forget');
 Route::get('/my-dashboard', [DashboardController::class, 'userDashboard'])->middleware(['auth', 'verified'])->name('user-dashboard');
 Route::get('/my-profile', [DashboardController::class, 'userProfile'])->middleware(['auth', 'verified'])->name('user-profile');
+Route::post('/user-user-info/{id}', [DashboardController::class, 'userInfo'])->name('userInfo.update');
+Route::post('/user-shipping-info/{id}', [DashboardController::class, 'userShippingInfo'])->name('shippingInfo.update');
 
 
 // product pages

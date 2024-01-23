@@ -23,7 +23,7 @@
                 <div class="col-sm-6">
                     <nav aria-label="breadcrumb" class="theme-breadcrumb">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                            <li class="breadcrumb-item"><a href="{{ route('homepage') }}">Home</a></li>
                             <li class="breadcrumb-item active" aria-current="page">profile</li>
                         </ol>
                     </nav>
@@ -40,30 +40,26 @@
             <div class="row">
                 <div class="col-sm-12">
                     <h3>PERSONAL DETAIL</h3>
-                    <form class="theme-form">
+                    <form method="POST" action="{{ route('userInfo.update', Auth::user()->id) }}" class="theme-form">
+                        @csrf
                         <div class="form-row row">
-                            <div class="col-md-6">
-                                <label for="name">First Name</label>
-                                <input type="text" class="form-control" id="name" placeholder="Enter Your name"
-                                    required="">
+                            <div class="col-md-4">
+                                <label for="name">Full Name</label>
+                                <input type="text" name="name" class="form-control" id="name" placeholder="Enter Your name" value="{{ Auth::user()->name }}" required="">
                             </div>
-                            <div class="col-md-6">
-                                <label for="email">Last Name</label>
-                                <input type="text" class="form-control" id="last-name" placeholder="Email" required="">
-                            </div>
-                            <div class="col-md-6">
-                                <label for="review">Phone number</label>
-                                <input type="text" class="form-control" id="review" placeholder="Enter your number"
-                                    required="">
-                            </div>
-                            <div class="col-md-6">
+                            
+                            <div class="col-md-4">
                                 <label for="email">Email</label>
-                                <input type="text" class="form-control" id="email" placeholder="Email" required="">
+                                <input type="email" name="email" class="form-control" id="email" placeholder="Email" value="{{ Auth::user()->email }}" required="">
                             </div>
+
+                            <div class="col-md-4">
+                                <label for="phone">Phone number</label>
+                                <input type="text" name="phone" class="form-control" id="phone" placeholder="Enter your number" value="@if( !is_null(Auth::user()->phone) ) {{ Auth::user()->phone }} @else {{ old('phone') }} @endif" required="">
+                            </div>
+
                             <div class="col-md-12">
-                                <label for="review">Write Your Message</label>
-                                <textarea class="form-control mb-0" placeholder="Write Your Message"
-                                    id="exampleFormControlTextarea1" rows="6"></textarea>
+                                <button class="btn btn-sm btn-solid" type="submit">Save setting</button>
                             </div>
                         </div>
                     </form>
@@ -80,43 +76,57 @@
             <div class="row">
                 <div class="col-sm-12">
                     <h3>SHIPPING ADDRESS</h3>
-                    <form class="theme-form">
+                     <form method="POST" action="{{ route('shippingInfo.update', Auth::user()->id) }}" class="theme-form">
+                        @csrf
                         <div class="form-row row">
-                            <div class="col-md-6">
-                                <label for="name">flat / plot</label>
-                                <input type="text" class="form-control" id="home-ploat" placeholder="company name"
-                                    required="">
+                            <div class="col-md-4">
+                                <label for="addressLine1">Address Line 1</label>
+                                <input type="text" name="address_line1" class="form-control" id="addressLine1" placeholder="Enter your number" value="@if( !is_null(Auth::user()->address_line1) ) {{ Auth::user()->address_line1 }} @else {{ old('addressLine1') }} @endif" >
                             </div>
-                            <div class="col-md-6">
-                                <label for="name">Address *</label>
-                                <input type="text" class="form-control" id="address-two" placeholder="Address"
-                                    required="">
+
+                            <div class="col-md-4">
+                                <label for="addressLine2">Address Line 2</label>
+                                <input type="text" name="address_line2" class="form-control" id="addressLine2" placeholder="Enter your number" value="@if( !is_null(Auth::user()->address_line2) ) {{ Auth::user()->address_line2 }} @else {{ old('addressLine2') }} @endif" >
                             </div>
-                            <div class="col-md-6">
-                                <label for="email">Zip Code *</label>
-                                <input type="text" class="form-control" id="zip-code" placeholder="zip-code"
-                                    required="">
-                            </div>
-                            <div class="col-md-6 select_input">
-                                <label for="review">Country *</label>
-                                <select class="form-control" size="1">
-                                    <option value="India">India</option>
-                                    <option value="UAE">UAE</option>
-                                    <option value="U.K">U.K</option>
-                                    <option value="US">US</option>
+
+                            <div class="col-md-4">
+                                <label for="Division">Division</label>
+                                <select class="form-select" id="Division" name="division_id" style="height: 53px">
+                                    <option value="" selected>Please select the Division</option>
+                                    @foreach ($states as $state)
+                                       <option value="{{ $state->id }}" 
+                                        @if( Auth::user()->division_id == $state->id ) selected @endif>{{ $state->name }}</option>
+                                    @endforeach
                                 </select>
                             </div>
-                            <div class="col-md-6">
-                                <label for="review">City *</label>
-                                <input type="text" class="form-control" id="city" placeholder="City" required="">
+
+                            <div class="col-md-4 mb-3">
+                                <label for="District">State / District</label>
+                                <select class="form-select" name="district_id" id="District" style="height: 53px">
+                                    <option value="" selected>Please select the State / District</option>
+                                    @foreach ($districts as $district)
+                                       <option value="{{ $district->id }}" @if( Auth::user()->district_id == $district->id ) selected @endif>{{ $district->name }}</option>
+                                    @endforeach
+                                </select>
                             </div>
-                            <div class="col-md-6">
-                                <label for="review">Region/State *</label>
-                                <input type="text" class="form-control" id="region-state" placeholder="Region/state"
-                                    required="">
+
+                            <div class="col-md-4 mb-3">
+                                <label for="Country">Country</label>
+                                <select class="form-select" name="country_id" id="Country" style="height: 53px">
+                                    <option value="" selected>Please select the Country</option>
+                                    @foreach ($countries as $country)
+                                       <option value="{{ $country->id }}" @if( Auth::user()->country_id == $country->id ) selected @endif>{{ $country->name }}</option>
+                                    @endforeach
+                                </select>
                             </div>
+
+                            <div class="col-md-4">
+                                <label for="zipCode">Zip Code</label>
+                                <input type="text" name="zipCode" class="form-control" id="zipCode" placeholder="zip code" value="@if( !is_null(Auth::user()->zipCode) ) {{ Auth::user()->zipCode }} @else {{ old('zipCode') }} @endif" required="">
+                            </div>
+
                             <div class="col-md-12">
-                                <button class="btn btn-sm btn-solid" type="submit">Save setting</button>
+                                <button type="submit" class="btn btn-sm btn-solid">Save setting</button>
                             </div>
                         </div>
                     </form>
