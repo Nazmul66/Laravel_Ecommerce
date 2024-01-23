@@ -118,8 +118,7 @@ Route::post('/ipn', [SslCommerzPaymentController::class, 'ipn']);
 |
 */
 
-Route::group(['prefix'=>'/admin'], function(){
-
+Route::group(['middleware' => ['auth','isAdmin'], 'prefix' => '/admin'], function(){
     Route::get('/dashboard', [AdminPageController::class, 'index'])->name('admin.dashboard');
 
 

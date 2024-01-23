@@ -30,10 +30,18 @@ class AuthenticatedSessionController extends Controller
         $request->session()->regenerate();
 
         if( Auth::user()->role == 1 ){
-            return redirect()->intended(RouteServiceProvider::ADMIN_HOME);
+            $notification = array(
+                'message'    => "Admin Login successful",
+                'alert-type' => "success"
+            );
+            return redirect()->intended(RouteServiceProvider::ADMIN_HOME)->with($notification);
         }
         else if(Auth::user()->role == 2) {
-            return redirect()->intended(RouteServiceProvider::CUSTOMER_HOME);
+            $notification = array(
+                'message'    => "Customer Login successful",
+                'alert-type' => "success"
+            );
+            return redirect()->intended(RouteServiceProvider::CUSTOMER_HOME)->with($notification);
         }
 
     }
