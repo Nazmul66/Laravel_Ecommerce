@@ -52,10 +52,10 @@
                                     {{ Auth::user()->name }}
                                     <ul class="onhover-show-div">
                                         <li>
-                                            <a href="">Dashboard</a>
+                                            <a href={{ route('user-dashboard') }}>Dashboard</a>
                                         </li>
                                         <li>
-                                            <a href="">Profile</a>
+                                            <a href="{{ route('user-profile') }}">Profile</a>
                                         </li>
                                         <li>
                                             <form method="POST" action="{{ route('logout') }}">

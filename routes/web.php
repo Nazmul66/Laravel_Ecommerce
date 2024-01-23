@@ -73,8 +73,9 @@ Route::get('/404-not-found', [PageController::class, 'error404'])->name('errorPa
 // user auth pages
 Route::get('/user-login', [DashboardController::class, 'userLogin'])->name('user-login');
 Route::get('/user-register', [DashboardController::class, 'userRegister'])->name('user-register');
-Route::get('/my-dashboard', [DashboardController::class, 'userDashboard'])->name('user-dashboard');
-Route::get('/my-profile', [DashboardController::class, 'userProfile'])->name('user-profile');
+Route::get('/user-forget', [DashboardController::class, 'userForget'])->name('user-forget');
+Route::get('/my-dashboard', [DashboardController::class, 'userDashboard'])->middleware(['auth', 'verified'])->name('user-dashboard');
+Route::get('/my-profile', [DashboardController::class, 'userProfile'])->middleware(['auth', 'verified'])->name('user-profile');
 
 
 // product pages

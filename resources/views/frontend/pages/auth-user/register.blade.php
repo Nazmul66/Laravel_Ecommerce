@@ -1,7 +1,7 @@
 @extends('frontend.layout.template')
 
 @section('title')
-   <title>Ecommerce | Register Page</title>
+   <title>Register Page</title>
 @endsection
 
 @section('body-content')
@@ -36,32 +36,47 @@
                 <div class="col-lg-12">
                     <h3>create account</h3>
                     <div class="theme-card">
-                        <form class="theme-form">
+
+                        <form class="theme-form" action="{{ route('register') }}"  method="POST">
+                            @csrf
+                            <!-- Full Name -->
                             <div class="form-row row">
                                 <div class="col-md-6">
-                                    <label for="email">First Name</label>
-                                    <input type="text" class="form-control" id="fname" placeholder="First Name"
-                                        required="">
+                                    <label for="name">Full Name</label>
+                                    <input id="name" type="text" name="name" value="{{ old('name') }}" required autofocus autocomplete="name" class="form-control" placeholder="Full Name">
+                                    <x-input-error :messages="$errors->get('name')" class="mt-2" />
                                 </div>
-                                <div class="col-md-6">
-                                    <label for="review">Last Name</label>
-                                    <input type="password" class="form-control" id="lname" placeholder="Last Name"
-                                        required="">
-                                </div>
-                            </div>
-                            <div class="form-row row">
+
+                                <!-- Email Address -->
                                 <div class="col-md-6">
                                     <label for="email">email</label>
-                                    <input type="text" class="form-control" id="email" placeholder="Email" required="">
+                                    <input class="form-control" id="email" type="email" name="email" value="{{ old('email') }}" required autocomplete="username" placeholder="Email" >
+                                    <x-input-error :messages="$errors->get('email')" class="mt-2" />
                                 </div>
+                            </div>
+
+                            
+                            <div class="form-row row">
+                                <!-- Password -->
                                 <div class="col-md-6">
                                     <label for="review">Password</label>
-                                    <input type="password" class="form-control" id="review"
-                                        placeholder="Enter your password" required="">
+                                    <input class="form-control" id="password"  type="password" name="password" required autocomplete="new-password" placeholder="Enter your password" >
+                                    <x-input-error :messages="$errors->get('password')" class="mt-2" />
                                 </div>
-                                <a href="{{ route('user-login') }}" class="btn btn-solid w-auto">create Account</a>
+
+                                <!-- Confirm Password -->
+                                <div class="col-md-6">
+                                    <label for="review">retype-Password</label>
+                                    <input class="form-control" id="password"  type="password" name="password_confirmation" required autocomplete="new-password" placeholder="Enter your retype password" >
+                                    <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
+                                </div>
+
+                                <button type="submit" class="btn btn-solid w-auto">create Account</button>
                             </div>
+
+                            <p class="mt-3">Already have an account? <a href="{{ route('user-login') }}">Click here</a></p>
                         </form>
+
                     </div>
                 </div>
             </div>

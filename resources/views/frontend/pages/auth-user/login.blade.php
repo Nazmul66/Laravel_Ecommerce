@@ -57,6 +57,9 @@
                             <button type="submit" class="btn btn-solid">Login</button>
                         </form>
 
+                        <p class="mt-3">Forget Password? 
+                            <a href="{{ route('user-forget') }}">Reset Password</a>
+                        </p>
                     </div>
                 </div>
                 <div class="col-lg-6 right-login">

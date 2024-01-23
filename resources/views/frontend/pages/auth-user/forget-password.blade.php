@@ -32,7 +32,7 @@
     <!-- breadcrumb End -->
 
 
-    <!--section start-->
+    {{-- <!--section start-->
     <section class="pwd-page section-b-space">
         <div class="container">
             <div class="row">
@@ -50,6 +50,38 @@
             </div>
         </div>
     </section>
-    <!--Section ends-->
+    <!--Section ends--> --}}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="mb-4 text-sm text-gray-600">
+                    {{ __('Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.') }}
+                </div>
+            
+                <!-- Session Status -->
+                <x-auth-session-status class="mb-4" :status="session('status')" />
+            
+                <form method="POST" action="{{ route('password.email') }}">
+                    @csrf
+            
+                    <!-- Email Address -->
+                    <div>
+                        <x-input-label for="email" class="form-label text-center d-block" :value="__('Forget Your Password')" />
+                        <div class="col-lg-6 offset-lg-3">
+                            <x-text-input id="email" class="form-control" type="email" name="email" :value="old('email')" required autofocus />
+                        </div>
+                        <x-input-error :messages="$errors->get('email')" class="mt-2" />
+                    </div>
+            
+                    <div class="text-center mt-3 mb-3">
+                        <button type="submit" class="btn btn-solid ">
+                            {{ __('Submit') }}
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
 @endsection
