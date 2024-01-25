@@ -98,6 +98,7 @@ Route::group(['prefix' => '/carts'], function (){
     Route::get('/delete/{id}', [CartController::class, 'destroy'])->name('cart.destroy');
 });
 
+
 // Checkout page routes
 Route::get('/checkout', [SslCommerzPaymentController::class, 'checkout'])->name('checkout');
 Route::post('/pay', [SslCommerzPaymentController::class, 'index'])->name('make.payment');
