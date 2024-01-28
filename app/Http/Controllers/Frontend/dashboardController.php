@@ -9,6 +9,8 @@ use App\Models\District;
 use App\Models\State;
 use App\Models\Country;
 use App\Models\User;
+use App\Models\Order; 
+use App\Models\Cart; 
 
 class dashboardController extends Controller
 {
@@ -44,7 +46,12 @@ class dashboardController extends Controller
     {
         $districts  = District::orderBy('name', 'ASC')->where('status', 1)->get();
         $countries  = Country::orderBy('name', 'ASC')->where('status', 1)->get();
-        return view('frontend.pages.customer_pages.dashboard', compact('countries', 'districts',));
+        
+        if( Auth::check() ){
+            $authId =  Auth::user()->id;
+            $orders = Order::orderBy('id', 'desc')->where("user_id", $authId)->get();
+            return view('frontend.pages.customer_pages.dashboard', compact('countries', 'districts', 'orders'));
+        }
     }
 
     public function userInfo(Request $request, string $id)
@@ -93,6 +100,13 @@ class dashboardController extends Controller
 
             return redirect()->back()->with($notification); 
         }
+    }
+
+    public function usersOrderDetails(string $id)
+    {
+       $order = Order::find($id);
+       $carts = Cart::orderBy('id', 'desc')->where('order_id', $order->id)->get();
+       return view('frontend.pages.customer_pages.invoice', compact('carts', 'order'));
     }
 
 

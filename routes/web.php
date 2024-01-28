@@ -21,6 +21,7 @@ use App\Http\Controllers\Backend\CountryController;
 use App\Http\Controllers\Backend\DistrictController;
 use App\Http\Controllers\Backend\StateController;
 use App\Http\Controllers\Backend\ProductController;
+use App\Http\Controllers\Backend\OrderController;
 
 
 /*
@@ -75,6 +76,7 @@ Route::get('/user-login', [DashboardController::class, 'userLogin'])->name('user
 Route::get('/user-register', [DashboardController::class, 'userRegister'])->name('user-register');
 Route::get('/user-forget', [DashboardController::class, 'userForget'])->name('user-forget');
 Route::get('/my-dashboard', [DashboardController::class, 'userDashboard'])->middleware(['auth', 'verified'])->name('user-dashboard');
+Route::get('/dashboard-order-details/{id}', [DashboardController::class, 'usersOrderDetails'])->middleware(['auth', 'verified'])->name('user-orderDetails');
 Route::get('/my-profile', [DashboardController::class, 'userProfile'])->middleware(['auth', 'verified'])->name('user-profile');
 Route::post('/user-user-info/{id}', [DashboardController::class, 'userInfo'])->name('userInfo.update');
 Route::post('/user-shipping-info/{id}', [DashboardController::class, 'userShippingInfo'])->name('shippingInfo.update');
@@ -213,6 +215,14 @@ Route::group(['middleware' => ['auth','isAdmin'], 'prefix' => '/admin'], functio
         Route::get('/destroy/{id}', [DistrictController::class, "destroy"])->name('district.destroy');
         Route::get('/trash/{id}', [DistrictController::class, "trash"])->name('district.trash');
         Route::get('/trash-manager', [DistrictController::class, "trashManager"])->name('district.trash-manager');
+    });
+
+
+     // Order
+     Route::group(['prefix' => '/order'], function(){
+        Route::get('/manage', [OrderController::class, "manage"])->name('order.manage');
+        Route::get('/order-details/{id}', [OrderController::class, "edit"])->name('order.edit');
+        Route::post('/order-details-update/{id}', [OrderController::class, "update"])->name('order.update');
     });
 
 

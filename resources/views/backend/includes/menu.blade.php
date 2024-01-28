@@ -81,7 +81,6 @@
 
 
 				<li class="menu-label">Marketing Tools</li>
-
 				<!-- Coupon code Menu Items -->
 				<li>
 					<a href="javascript:;" class="has-arrow">
@@ -132,7 +131,7 @@
 
 				
 				<li class="menu-label">Order Management</li>
-				<!-- Customers list Menu Items -->
+				<!-- Order list Menu Items -->
 				<li>
 					<a href="javascript:;" class="has-arrow">
 						<div class="parent-icon"><i class='bx bx-bar-chart-alt'></i>
@@ -141,7 +140,7 @@
 					</a>
 					<ul>
 						<li> 
-							<a href="app-emailbox.html"><i class="bx bx-right-arrow-alt"></i>Manage Orders</a>
+							<a href="{{ route('order.manage') }}"><i class="bx bx-right-arrow-alt"></i>Manage Orders</a>
 						</li>
 					</ul>
 				</li>

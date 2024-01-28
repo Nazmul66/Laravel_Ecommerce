@@ -94,7 +94,7 @@
                                         <div class="counter-box">
                                             <img src="{{ asset('frontend/assets/images/icon/dashboard/sale.png') }}" class="img-fluid">
                                             <div>
-                                                <h3>25</h3>
+                                                <h3>{{ App\Models\Order::totalOrderQty() }}</h3>
                                                 <h5>Total Order</h5>
                                             </div>
                                         </div>
@@ -103,7 +103,9 @@
                                         <div class="counter-box">
                                             <img src="{{ asset('frontend/assets/images/icon/dashboard/homework.png') }}" class="img-fluid">
                                             <div>
-                                                <h3>5</h3>
+                                                <h3>
+                                                    {{  App\Models\Order::pendingOrderQty() }}
+                                                </h3>
                                                 <h5>Pending Orders</h5>
                                             </div>
                                         </div>
@@ -285,92 +287,60 @@
                                                 <table class="table cart-table order-table">
                                                     <thead>
                                                         <tr class="table-head">
-                                                            <th scope="col">image</th>
+                                                            <th scope="col">Sl.</th>
                                                             <th scope="col">Order Id</th>
-                                                            <th scope="col">Product Details</th>
+                                                            <th scope="col">image</th>
+                                                            <th scope="col">Order Date</th>
                                                             <th scope="col">Status</th>
                                                             <th scope="col">Price</th>
                                                             <th scope="col">View</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <tr>
-                                                            <td>
-                                                                <a href="javascript:void(0)">
-                                                                    <img src="{{ asset('frontend/assets/images/pro3/1.jpg') }}" class="blur-up lazyloaded" alt="">
-                                                                </a>
-                                                            </td>
-                                                            <td>
-                                                                <span class="mt-0">#125021</span>
-                                                            </td>
-                                                            <td>
-                                                                <span class="fs-6">Purple polo tshirt</span>
-                                                            </td>
-                                                            <td>
-                                                                <span
-                                                                    class="badge rounded-pill bg-success custom-badge">Shipped</span>
-                                                            </td>
-                                                            <td>
-                                                                <span class="theme-color fs-6">$49.54</span>
-                                                            </td>
-                                                            <td>
-                                                                <a href="javascript:void(0)">
-                                                                    <i class="fa fa-eye text-theme"></i>
-                                                                </a>
-                                                            </td>
-                                                        </tr>
+                                                        @php $sl = 1; @endphp
+                                                        @foreach ( $orders as $order )
+                                                            <tr>
+                                                                <td>{{ $sl }}</td>
+                                                                <td>
+                                                                    <span class="mt-0">#{{ $order->id }}</span>
+                                                                </td>
+                                                                <td>
+                                                                    <a href="javascript:void(0)">
+                                                                        <img src="{{ asset('frontend/assets/images/pro3/1.jpg') }}" class="blur-up lazyloaded" alt="">
+                                                                    </a>
+                                                                </td>
+                                                                <td>
+                                                                    <span class="fs-6">{{ $order->created_at }}</span>
+                                                                </td>
+                                                                <td>
+                                                                    @if ( $order->status == 'Pending' )
+                                                                        <span class="badge rounded-pill bg-warning custom-badge">Pending
+                                                                        </span>
 
-                                                        <tr>
-                                                            <td>
-                                                                <a href="javascript:void(0)">
-                                                                    <img src="{{ asset('frontend/assets/images/pro3/2.jpg') }}" class="blur-up lazyloaded" alt="">
-                                                                </a>
-                                                            </td>
-                                                            <td>
-                                                                <span class="mt-0">#125367</span>
-                                                            </td>
-                                                            <td>
-                                                                <span class="fs-6">Sleevless white top</span>
-                                                            </td>
-                                                            <td>
-                                                                <span
-                                                                    class="badge rounded-pill bg-danger custom-badge">Pending</span>
-                                                            </td>
-                                                            <td>
-                                                                <span class="theme-color fs-6">$49.54</span>
-                                                            </td>
-                                                            <td>
-                                                                <a href="javascript:void(0)">
-                                                                    <i class="fa fa-eye text-theme"></i>
-                                                                </a>
-                                                            </td>
-                                                        </tr>
+                                                                    @elseif( $order->status == 'Processing' )
+                                                                        <span class="badge rounded-pill bg-info custom-badge">Processing
+                                                                        </span>
 
-                                                        <tr>
-                                                            <td>
-                                                                <a href="javascript:void(0)">
-                                                                    <img src="{{ asset('frontend/assets/images/pro3/34.jpg') }}" class="blur-up lazyloaded" alt="">
-                                                                </a>
-                                                            </td>
-                                                            <td>
-                                                                <span>#125021</span>
-                                                            </td>
-                                                            <td>
-                                                                <span class="fs-6">Men's Sweatshirt</span>
-                                                            </td>
-                                                            <td>
-                                                                <span
-                                                                    class="badge rounded-pill bg-secondary custom-badge">Canceled</span>
-                                                            </td>
-                                                            <td>
-                                                                <span class="theme-color fs-6">$49.54</span>
-                                                            </td>
-                                                            <td>
-                                                                <a href="javascript:void(0)">
-                                                                    <i class="fa fa-eye text-theme"></i>
-                                                                </a>
-                                                            </td>
-                                                        </tr>
+                                                                    @elseif( $order->status == 'Complete' )
+                                                                    <span class="badge rounded-pill bg-primary custom-badge">Complete</span>
+
+                                                                    @elseif( $order->status == 'Canceled' )
+                                                                    <span class="badge rounded-pill bg-danger custom-badge">Canceled</span>
+                                                                    @endif
+                                                                </td>
+
+                                                                <td>
+                                                                    <span class="theme-color fs-6">৳{{ $order->amount }} BDT</span>
+                                                                </td>
+
+                                                                <td>
+                                                                    <a href="{{ route('user-orderDetails', $order->id) }}">
+                                                                        <i class="fa fa-eye text-theme"></i>
+                                                                    </a>
+                                                                </td>
+                                                            </tr>
+                                                            @php $sl++; @endphp
+                                                        @endforeach
                                                     </tbody>
                                                 </table>
                                             </div>
