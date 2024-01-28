@@ -29,6 +29,7 @@ class CartController extends Controller
      */
     public function store(Request $request)
     {
+        // first check data
         if( Auth::check() ){
            $cart = Cart::where('user_id', Auth::id())->where('product_id', $request->product_id)->where('order_id', NULL)->first();
         }
@@ -39,7 +40,7 @@ class CartController extends Controller
 
         if( !is_null( $cart ) ){
             if( !is_null( $request->product_quantity ) ){
-                $cart->product_quantity =  $cart->product_quantity + $request->product_quantity;
+                $cart->product_quantity = $cart->product_quantity + $request->product_quantity;
             }
             else{
                 $cart->increment('product_quantity');
@@ -60,9 +61,9 @@ class CartController extends Controller
             $carts = new Cart();
 
             if( Auth::check() ){
-                $carts->user_id = Auth::id(); 
-                $carts->product_id        = $request->product_id; 
-                $carts->product_quantity  = $request->product_quantity; 
+                $carts->user_id             = Auth::id(); 
+                $carts->product_id          = $request->product_id; 
+                $carts->product_quantity    = $request->product_quantity; 
                 $carts->save();
 
                 $notification = array(

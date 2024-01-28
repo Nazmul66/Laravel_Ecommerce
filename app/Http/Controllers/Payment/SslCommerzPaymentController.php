@@ -10,6 +10,7 @@ use App\Models\Cart;
 use App\Models\State;
 use App\Models\Country;
 use App\Models\District;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class SslCommerzPaymentController extends Controller
@@ -93,17 +94,45 @@ class SslCommerzPaymentController extends Controller
                 'division_id'         => $post_data['cus_division'],
                 'country'             => $post_data['cus_country'],
                 'zip_code'            => $post_data['cus_zipCode'],
-                'shipping_method'       => $post_data['shipping_method'],
+                'shipping_method'     => $post_data['shipping_method'],
                 'amount'              => $post_data['total_amount'],
                 'paid_amount'         => 0,
                 'coupon_code'         => 'Blank',
                 'status'              => 'Pending',
                 'transaction_id'      => $post_data['tran_id'],
-                'currency'            => $post_data['currency']
+                'currency'            => $post_data['currency'],
+                'created_at'          => Carbon::now()
             ]);
+
+            // remove all carts data when purchased
+            $transaction_id = $post_data['tran_id'];
+            $order_Id = DB::table('orders')
+            ->where('transaction_id', $transaction_id)
+            ->select('id')->first();
+
+            foreach ( Cart::totalCart() as $cart ) {
+
+                if( !is_null( $cart->product->offer_price) ){
+                    $unitPrice = $cart->product->offer_price;
+                }
+                else{
+                    $unitPrice = $cart->product->regular_price;
+                }
+
+                $cart->product_unit_price = $unitPrice;
+                $cart->order_id = $order_Id->id;
+                $cart->save();
+            }
+
+            $notification = array(
+                'message'    => "Your order has been placed successfully",
+                'alert-type' => "success",
+            );
+
+            return redirect()->route('homepage')->with($notification);
         }
 
-        // ssl commercz ID 2
+        // ssl commerce ID 2
         else if( $post_data['payment_method'] == 2 ){
             $update_product = DB::table('orders')
             ->where('transaction_id', $post_data['tran_id'])
@@ -124,8 +153,29 @@ class SslCommerzPaymentController extends Controller
                 'coupon_code'         => 'Blank',
                 'status'              => 'Pending',
                 'transaction_id'      => $post_data['tran_id'],
-                'currency'            => $post_data['currency']
+                'currency'            => $post_data['currency'],
+                'created_at'          => Carbon::now()
             ]);
+
+              // remove all carts data when purchased
+              $transaction_id = $post_data['tran_id'];
+              $order_Id = DB::table('orders')
+              ->where('transaction_id', $transaction_id)
+              ->select('id')->first();
+  
+              foreach ( Cart::totalCart() as $cart ) {
+  
+                  if( !is_null( $cart->product->offer_price ) ){
+                      $unitPrice = $cart->product->offer_price;
+                  }
+                  else{
+                      $unitPrice = $cart->product->regular_price;
+                  }
+  
+                  $cart->product_unit_price = $unitPrice;
+                  $cart->order_id = $order_Id->id;
+                  $cart->save();
+              }
 
             $sslc = new SslCommerzNotification();
             # initiate(Transaction Data , false: Redirect to SSLCOMMERZ gateway/ true: Show all the Payement gateway here )
@@ -212,44 +262,32 @@ class SslCommerzPaymentController extends Controller
 
     public function success(Request $request)
     {
-        echo "Transaction is Successful";
+        // echo "Transaction is Successful";
 
-        $tran_id = $request->input('tran_id');
-        $amount = $request->input('amount');
-        $currency = $request->input('currency');
+        $tran_id        = $request->input('tran_id');
+        $amount         = $request->input('total_amount');
+        $currency       = $request->input('currency');
 
         $sslc = new SslCommerzNotification();
 
         #Check order status in order tabel against the transaction id or order id.
         $order_details = DB::table('orders')
             ->where('transaction_id', $tran_id)
-            ->select('transaction_id', 'status', 'currency', 'amount')->first();
+            ->first();
 
-        if ($order_details->status == 'Pending') {
-            $validation = $sslc->orderValidate($request->all(), $tran_id, $amount, $currency);
+        $product_cart_details = DB::table('carts')
+            ->where('order_id', $order_details->id)
+            ->get();
 
-            if ($validation) {
-                /*
-                That means IPN did not work or IPN URL was not set in your merchant panel. Here you need to update order status
-                in order table as Processing or Complete.
-                Here you can also sent sms or email for successfull transaction to customer
-                */
-                $update_product = DB::table('orders')
-                    ->where('transaction_id', $tran_id)
-                    ->update(['status' => 'Processing']);
+        $product_details = DB::table('products')->get();
+        $expected_date_time = Carbon::now()->addDays(3);
 
-                echo "<br >Transaction is successfully Completed";
-            }
-        } else if ($order_details->status == 'Processing' || $order_details->status == 'Complete') {
-            /*
-             That means through IPN Order status already updated. Now you can just show the customer that transaction is completed. No need to udate database.
-             */
-            echo "Transaction is successfully Completed";
-        } else {
-            #That means something wrong happened. You can redirect customer to your product page.
-            echo "Invalid Transaction";
-        }
+        $notification = array(
+            'message'    => "Your order has been placed successfully",
+            'alert-type' => "success",
+        );    
 
+        return view('frontend.pages.order.order-success', compact('order_details','product_cart_details', 'product_details', 'expected_date_time'))->with($notification);
 
     }
 

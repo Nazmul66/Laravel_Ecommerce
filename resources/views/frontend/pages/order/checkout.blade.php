@@ -219,13 +219,13 @@
                                                 <ul>
                                                     <li>
                                                         <div class="radio-option">
-                                                            <input type="radio" name="payment_method" id="payment-2" value="1">
+                                                            <input type="radio" name="payment_method" id="payment-2" value="1" required>
                                                             <label for="payment-2">Cash On Delivery<span class="small-text">Please send a check to Store Name, Store Street, Store Town, Store State / County, Store Postcode.</span></label>
                                                         </div>
                                                     </li>
                                                     <li>
                                                         <div class="radio-option paypal">
-                                                            <input type="radio" name="payment_method" id="payment-3" value="2">
+                                                            <input type="radio" name="payment_method" id="payment-3" value="2" required>
                                                             <label for="payment-3">pay with ssl_Commerz<span class="image">
                                                                 <img src="{{ asset('frontend/assets/images/paypal.png') }}" alt=""></span>
                                                             </label>
@@ -250,10 +250,6 @@
     
 @endsection
 
-
-
 @section('script')
-
-
 
 @endsection

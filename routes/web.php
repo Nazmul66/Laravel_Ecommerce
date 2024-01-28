@@ -103,9 +103,9 @@ Route::group(['prefix' => '/carts'], function (){
 Route::get('/checkout', [SslCommerzPaymentController::class, 'checkout'])->name('checkout');
 Route::post('/pay', [SslCommerzPaymentController::class, 'index'])->name('make.payment');
 
-Route::post('/success', [SslCommerzPaymentController::class, 'success']);
-Route::post('/fail', [SslCommerzPaymentController::class, 'fail']);
-Route::post('/cancel', [SslCommerzPaymentController::class, 'cancel']);
+Route::post('/success', [SslCommerzPaymentController::class, 'success'])->name('order.success');
+Route::post('/fail', [SslCommerzPaymentController::class, 'fail'])->name('order.failed');
+Route::post('/cancel', [SslCommerzPaymentController::class, 'cancel'])->name('order.canceled');
 Route::post('/ipn', [SslCommerzPaymentController::class, 'ipn']);
 
 
