@@ -10,6 +10,7 @@ use App\Models\Cart;
 use App\Models\State;
 use App\Models\Country;
 use App\Models\District;
+use App\Models\Product;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
@@ -119,9 +120,16 @@ class SslCommerzPaymentController extends Controller
                     $unitPrice = $cart->product->regular_price;
                 }
 
+                // order_id change after purchase order data
                 $cart->product_unit_price = $unitPrice;
                 $cart->order_id = $order_Id->id;
                 $cart->save();
+
+                // reduce quantity after purchase orders 
+                $product = Product::where('id', $cart->product_id)->first();
+                $upQty = $product->quantity - $cart->product_quantity;
+                $product->quantity = $upQty;
+                $product->save();
             }
 
             $notification = array(
@@ -172,9 +180,17 @@ class SslCommerzPaymentController extends Controller
                       $unitPrice = $cart->product->regular_price;
                   }
   
-                  $cart->product_unit_price = $unitPrice;
-                  $cart->order_id = $order_Id->id;
-                  $cart->save();
+
+                  // order_id change after purchase order data
+                $cart->product_unit_price = $unitPrice;
+                $cart->order_id = $order_Id->id;
+                $cart->save();
+
+                // reduce quantity after purchase orders 
+                $product = Product::where('id', $cart->product_id)->first();
+                $upQty = $product->quantity - $cart->product_quantity;
+                $product->quantity = $upQty;
+                $product->save();
               }
 
             $sslc = new SslCommerzNotification();

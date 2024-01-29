@@ -22,6 +22,7 @@ use App\Http\Controllers\Backend\DistrictController;
 use App\Http\Controllers\Backend\StateController;
 use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\Backend\OrderController;
+use App\Http\Controllers\Backend\ShippingController;
 
 
 /*
@@ -205,8 +206,8 @@ Route::group(['middleware' => ['auth','isAdmin'], 'prefix' => '/admin'], functio
     });
 
     
-     // District
-     Route::group(['prefix' => '/district'], function(){
+    // District
+    Route::group(['prefix' => '/district'], function(){
         Route::get('/manage', [DistrictController::class, "manage"])->name('district.manage');
         Route::get('/create', [DistrictController::class, "create"])->name('district.create');
         Route::post('/store', [DistrictController::class, "store"])->name('district.store');
@@ -218,8 +219,19 @@ Route::group(['middleware' => ['auth','isAdmin'], 'prefix' => '/admin'], functio
     });
 
 
-     // Order
-     Route::group(['prefix' => '/order'], function(){
+    // Shipping Method
+    Route::group(['prefix' => '/Shipping-methods'], function(){
+        Route::get('/manage', [ShippingController::class, "manage"])->name('shipping.manage');
+        Route::get('/create', [ShippingController::class, "create"])->name('shipping.create');
+        Route::post('/store', [ShippingController::class, "store"])->name('shipping.store');
+        Route::get('/edit/{id}', [ShippingController::class, "edit"])->name('shipping.edit');
+        Route::post('/update/{id}', [ShippingController::class, "update"])->name('shipping.update');
+        Route::get('/destroy/{id}', [ShippingController::class, "destroy"])->name('shipping.destroy');
+    });
+
+
+    // Order
+    Route::group(['prefix' => '/order'], function(){
         Route::get('/manage', [OrderController::class, "manage"])->name('order.manage');
         Route::get('/order-details/{id}', [OrderController::class, "edit"])->name('order.edit');
         Route::post('/order-details-update/{id}', [OrderController::class, "update"])->name('order.update');

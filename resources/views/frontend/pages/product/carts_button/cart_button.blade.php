@@ -22,7 +22,11 @@
     </div>
     <!-- price increase and decrease end -->
 
-    <button type="submit" id="cartEffect" class="btn btn-solid hover-solid btn-animation">
+    <button type="submit" id="cartEffect" class="btn btn-solid hover-solid btn-animation" 
+          @if ( $productDetails->quantity == 0 )
+               disabled
+          @endif
+    >
         <i class="fa fa-shopping-cart me-1" aria-hidden="true"></i> 
         add to cart
     </button> 

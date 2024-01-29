@@ -147,7 +147,7 @@
                                                 </button>
                                             </div>
                                             <div class="modal-body">
-                                                <img src="{{ asset('frontend/') }}assets/images/size-chart.jpg" alt="" class="img-fluid blur-up lazyload">
+                                                <img src="{{ asset('frontend/assets/images/size-chart.jpg') }}" alt="" class="img-fluid blur-up lazyload">
                                             </div>
                                         </div>
                                     </div>
@@ -174,7 +174,11 @@
                                     @include('frontend.pages.product.carts_button.cart_button')
 
                                     <form action="" method="post" class="mt-3">
-                                        <button type="submit" class="btn btn-solid">
+                                        <button type="submit" class="btn btn-solid"
+                                            @if ( $productDetails->quantity == 0 )
+                                                disabled
+                                            @endif
+                                        >
                                             <i class="fa fa-bookmark fz-16 me-2" aria-hidden="true"></i>wishlist
                                         </button>
                                     </form>
