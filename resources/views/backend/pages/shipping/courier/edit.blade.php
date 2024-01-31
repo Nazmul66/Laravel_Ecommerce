@@ -1,13 +1,12 @@
 @extends('backend.layout.template')
 
 @section('page-title')
-   <title>Base Shipping Method | Ecommerce Platform</title>
+   <title>Update Shipping Method | Ecommerce Platform</title>
 @endsection
 
 @section('css')
     
 @endsection
-
 
 
 @section('body-content')
@@ -19,29 +18,24 @@
 
             <div class="card-body">
               <div class="d-flex align-items-center mb-3">
-                 <h5 class="mb-0">Add Shipping Method</h5>
+                 <h5 class="mb-0">Update Shipping Method</h5>
               </div>
 
                 <div class="mb-3 border p-3 radius-10">
-                    <form method="post" action="{{ route('shipping.store') }}">
+                    <form method="post" action="{{ route('courier.update', $shipping->id) }}">
                         
                         @csrf
 
                         <div class="row">
                            <div class="col-lg-4">
                               <div class="mb-3">
-                                <label class="form-label">Base Location</label>
-                                <select name="base_id" class="form-control">
-                                    <option value="">Select the best location</option>
-                                    @foreach ($districts as $district)
-                                        <option value="{{ $district->id }}">{{ $district->name }}</option>
-                                    @endforeach
-                                </select>
+                                <label class="form-label">Provider Name</label>
+                                <input type="text" name="provider_name" class="form-control" placeholder="Provider Name" value="{{ $shipping->provider_name }}" required='required'>
                               </div>
     
                               <div class="mb-3">
-                                <label class="form-label">Base Price</label>
-                                <input type="text" name="base_charge" class="form-control" placeholder="Base Price" required='required'>
+                                <label class="form-label">Provider Charge</label>
+                                <input type="text" name="provider_charge" class="form-control" placeholder="Provider Charge" value="{{ $shipping->provider_charge }}"  required='required'>
                               </div>
                            </div>
 
@@ -50,14 +44,14 @@
                                 <label class="form-label">Active Status</label>
                                   <select class="form-select" name="status" required='required'>
                                     <option value="" selected disabled>Please Select the status</option>
-                                    <option value="1">Active</option>
-                                    <option value="2">Inactive</option>
+                                    <option value="1" @if( $shipping->status == 1 ) selected @endif>Active</option>
+                                    <option value="2" @if( $shipping->status == 2 ) selected @endif>Inactive</option>
                                   </select>
                               </div>
                            </div>
                         </div>
 
-                        <input type="submit" class="btn btn-primary" value="Add Base Location" />
+                        <input type="submit" class="btn btn-dark" value="Update Shipping Method" />
                     </form>
                 </div>
 

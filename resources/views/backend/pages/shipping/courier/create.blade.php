@@ -1,7 +1,7 @@
 @extends('backend.layout.template')
 
 @section('page-title')
-   <title>Base Shipping Method | Ecommerce Platform</title>
+   <title>Add Shipping Method | Ecommerce Platform</title>
 @endsection
 
 @section('css')
@@ -23,25 +23,20 @@
               </div>
 
                 <div class="mb-3 border p-3 radius-10">
-                    <form method="post" action="{{ route('shipping.store') }}">
+                    <form method="post" action="{{ route('courier.store') }}">
                         
                         @csrf
 
                         <div class="row">
                            <div class="col-lg-4">
                               <div class="mb-3">
-                                <label class="form-label">Base Location</label>
-                                <select name="base_id" class="form-control">
-                                    <option value="">Select the best location</option>
-                                    @foreach ($districts as $district)
-                                        <option value="{{ $district->id }}">{{ $district->name }}</option>
-                                    @endforeach
-                                </select>
+                                <label class="form-label">Provider Name</label>
+                                <input type="text" name="provider_name" class="form-control" placeholder="Provider Name" required='required'>
                               </div>
     
                               <div class="mb-3">
-                                <label class="form-label">Base Price</label>
-                                <input type="text" name="base_charge" class="form-control" placeholder="Base Price" required='required'>
+                                <label class="form-label">Provider Charge</label>
+                                <input type="text" name="provider_charge" class="form-control" placeholder="Provider Charge" required='required'>
                               </div>
                            </div>
 
@@ -57,7 +52,7 @@
                            </div>
                         </div>
 
-                        <input type="submit" class="btn btn-primary" value="Add Base Location" />
+                        <input type="submit" class="btn btn-dark" value="Add Shipping Method" />
                     </form>
                 </div>
 

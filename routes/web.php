@@ -227,6 +227,13 @@ Route::group(['middleware' => ['auth','isAdmin'], 'prefix' => '/admin'], functio
         Route::get('/edit/{id}', [ShippingController::class, "edit"])->name('shipping.edit');
         Route::post('/update/{id}', [ShippingController::class, "update"])->name('shipping.update');
         Route::get('/destroy/{id}', [ShippingController::class, "destroy"])->name('shipping.destroy');
+
+        // courier Method
+        Route::get('/courier/create', [ShippingController::class, "courierCreate"])->name('courier.create');
+        Route::post('/courier/store', [ShippingController::class, "courierStore"])->name('courier.store');
+        Route::get('/courier/edit/{id}', [ShippingController::class, "courierEdit"])->name('courier.edit');
+        Route::post('/courier/update/{id}', [ShippingController::class, "courierUpdate"])->name('courier.update');
+        Route::get('/courier/destroy/{id}', [ShippingController::class, "courierDestroy"])->name('courier.destroy');
     });
 
 

@@ -238,6 +238,11 @@
 								<i class="bx bx-right-arrow-alt"></i>Social Media
 							</a>
 						</li>
+						<li> 
+							<a href="{{ route('shipping.manage') }}">
+								<i class="bx bx-right-arrow-alt"></i>Shipping Method
+							</a>
+						</li>
 					</ul>
 				</li>
 
