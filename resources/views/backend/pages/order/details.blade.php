@@ -227,6 +227,7 @@
                             <form method="POST" action="{{ route('order.update', $order->id) }}" class="mt-3">
                                 @csrf
 
+                                <input type="hidden" name="emailAddress" value="{{ $order->email }}">
                                 <div class="mb-3">
                                     <label for="status">Update Status</label>
                                     <select class="form-control" name="update_status" id="status">

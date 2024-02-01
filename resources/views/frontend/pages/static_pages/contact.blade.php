@@ -19,7 +19,7 @@
                 <div class="col-sm-6">
                     <nav aria-label="breadcrumb" class="theme-breadcrumb">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                            <li class="breadcrumb-item"><a href="{{ route('homepage') }}">Home</a></li>
                             <li class="breadcrumb-item active">contact</li>
                         </ol>
                     </nav>
@@ -35,16 +35,15 @@
         <div class="container">
             <div class="row section-b-space">
                 <div class="col-lg-7 map">
-                    <iframe
-                        src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d1605.811957341231!2d25.45976406005396!3d36.3940974010114!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sin!4v1550912388321"
-                        allowfullscreen></iframe>
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d1605.811957341231!2d25.45976406005396!3d36.3940974010114!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sin!4v1550912388321" allowfullscreen>
+                    </iframe>
                 </div>
                 <div class="col-lg-5">
                     <div class="contact-right">
                         <ul>
                             <li>
-                                <div class="contact-icon"><img src="{{ asset('frontend/assets/images/icon/phone.png') }}"
-                                        alt="Generic placeholder image">
+                                <div class="contact-icon">
+                                    <img src="{{ asset('frontend/assets/images/icon/phone.png') }}" alt="Generic placeholder image">
                                     <h6>Contact Us</h6>
                                 </div>
                                 <div class="media-body">
@@ -53,7 +52,8 @@
                                 </div>
                             </li>
                             <li>
-                                <div class="contact-icon"><i class="fa fa-map-marker" aria-hidden="true"></i>
+                                <div class="contact-icon">
+                                    <i class="fa fa-map-marker" aria-hidden="true"></i>
                                     <h6>Address</h6>
                                 </div>
                                 <div class="media-body">
@@ -62,8 +62,8 @@
                                 </div>
                             </li>
                             <li>
-                                <div class="contact-icon"><img src="{{ asset('frontend/assets/images/icon/email.png') }}"
-                                        alt="Generic placeholder image">
+                                <div class="contact-icon">
+                                    <img src="{{ asset('frontend/assets/images/icon/email.png') }}" alt="Generic placeholder image">
                                     <h6>Address</h6>
                                 </div>
                                 <div class="media-body">
@@ -72,7 +72,8 @@
                                 </div>
                             </li>
                             <li>
-                                <div class="contact-icon"><i class="fa fa-fax" aria-hidden="true"></i>
+                                <div class="contact-icon">
+                                    <i class="fa fa-fax" aria-hidden="true"></i>
                                     <h6>Fax</h6>
                                 </div>
                                 <div class="media-body">
@@ -84,33 +85,39 @@
                     </div>
                 </div>
             </div>
+
             <div class="row">
                 <div class="col-sm-12">
-                    <form class="theme-form">
+                    <form action="{{ route('contactEmail') }}" method="POST" class="theme-form">
                         <div class="form-row row">
+
+                            @csrf
+
                             <div class="col-md-6">
                                 <label for="name">First Name</label>
-                                <input type="text" class="form-control" id="name" placeholder="Enter Your name"
-                                    required="">
+                                <input type="text" name="fname" value="{{ old('fname') }}" class="form-control" id="name" placeholder="Enter Your name" required="">
                             </div>
+
                             <div class="col-md-6">
                                 <label for="email">Last Name</label>
-                                <input type="text" class="form-control" id="last-name" placeholder="Email" required="">
+                                <input type="text" name="lname" value="{{ old('lname') }}" class="form-control" id="last-name" placeholder="Email" required="">
                             </div>
+
                             <div class="col-md-6">
                                 <label for="review">Phone number</label>
-                                <input type="text" class="form-control" id="review" placeholder="Enter your number"
-                                    required="">
+                                <input type="text" name="phone" value="{{ old('phone') }}" class="form-control" id="review" placeholder="Enter your number" required="">
                             </div>
+
                             <div class="col-md-6">
                                 <label for="email">Email</label>
-                                <input type="text" class="form-control" id="email" placeholder="Email" required="">
+                                <input type="email" name="email" value="{{ old('email') }}" class="form-control" id="email" placeholder="Email" required="">
                             </div>
+
                             <div class="col-md-12">
-                                <label for="review">Write Your Message</label>
-                                <textarea class="form-control" placeholder="Write Your Message"
-                                    id="exampleFormControlTextarea1" rows="6"></textarea>
+                                <label for="message">Write Your Message</label>
+                                <textarea class="form-control" name="message" placeholder="Write Your Message" id="Message" rows="6">{{ old('message') }}</textarea>
                             </div>
+
                             <div class="col-md-12">
                                 <button class="btn btn-solid" type="submit">Send Your Message</button>
                             </div>

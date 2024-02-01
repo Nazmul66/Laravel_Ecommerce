@@ -69,6 +69,8 @@ require __DIR__.'/auth.php';
 Route::get('/', [PageController::class, 'Home'])->name('homepage');
 Route::get('/about', [PageController::class, 'about'])->name('aboutPage');
 Route::get('/contact', [PageController::class, 'contact'])->name('contactPage');
+Route::post('/contact-email', [PageController::class, 'contactEmail'])->name('contactEmail');
+
 Route::get('/404-not-found', [PageController::class, 'error404'])->name('errorPage');
 
 

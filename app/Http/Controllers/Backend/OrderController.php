@@ -39,7 +39,30 @@ class OrderController extends Controller
         $order = Order::find($id);
 
         if( !empty($order) ){
-            $order->status =  $request->update_status;
+            $order->status  =  $request->update_status;
+
+            // Ata email send korar jonno use kora hoye thakbe
+            // $adminEmail = 'hnazmul748@gmail.com';
+            // $customerEmail =  $request->emailAddress;
+
+            // Sending Mail to the customer, to update the status process of product confirming 
+            // if( $order->status === 'Pending' ){
+            //     Mail::to($adminEmail)->send( new NewOrderEmail($mailData) );
+            //     Mail::to($customerEmail)->send( new NewOrderEmail($mailData) );
+            // }
+            // else if( $order->status === 'Processing' ){
+            //     Mail::to($adminEmail)->send( new NewOrderEmail($mailData) ); 
+            //     Mail::to($customerEmail)->send( new NewOrderEmail($mailData) );
+            // }
+            // else if( $order->status === 'Complete' ){
+            //     Mail::to($adminEmail)->send( new NewOrderEmail($mailData) );
+            //     Mail::to($customerEmail)->send( new NewOrderEmail($mailData) );
+            // }
+            // else if( $order->status === 'Canceled' ){
+            //     Mail::to($adminEmail)->send( new NewOrderEmail($mailData) );
+            //     Mail::to($customerEmail)->send( new NewOrderEmail($mailData) );
+            // }
+
             $order->save();
         }
 

@@ -13,6 +13,9 @@ use App\Models\District;
 use App\Models\Product;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\NewOrderEmail;
+use App\Mail\ContactMail;
 
 class SslCommerzPaymentController extends Controller
 {
@@ -131,6 +134,29 @@ class SslCommerzPaymentController extends Controller
                 $product->quantity = $upQty;
                 $product->save();
             }
+
+            // email template send to customer and admin account person
+            $mailData = [
+                'name'       =>  $post_data['cus_name'],
+                'email'      =>  $post_data['cus_email'],
+            ];
+
+            $mailData2 = [
+                'fname'      =>  $request->fname,
+                'lname'      =>  $request->lname,
+                'phone'      =>  $request->phone,
+                'email'      =>  $post_data['cus_email'],
+                'message'    =>  $request->message
+            ];
+    
+            $adminEmail = 'hnazmul748@gmail.com';
+            $customerEmail = $post_data['cus_email'];
+    
+            // one for admin to email send 
+            Mail::to($adminEmail)->send( new NewOrderEmail($mailData) );
+
+            // second for customer email send
+            Mail::to($customerEmail)->send( new ContactMail($mailData2) );
 
             $notification = array(
                 'message'    => "Your order has been placed successfully",
@@ -297,6 +323,15 @@ class SslCommerzPaymentController extends Controller
 
         $product_details = DB::table('products')->get();
         $expected_date_time = Carbon::now()->addDays(3);
+
+        // $mailData = [
+        //     'email'      =>  $order_details->email,
+        //     'message'    =>  $request->message
+        // ];
+
+        // $adminEmail = 'hnazmul748@gmail.com';
+
+        // Mail::to($adminEmail)->send( new NewOrderEmail($mailData) );
 
         $notification = array(
             'message'    => "Your order has been placed successfully",
