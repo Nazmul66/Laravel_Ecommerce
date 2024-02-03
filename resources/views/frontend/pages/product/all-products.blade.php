@@ -50,8 +50,10 @@
           <div class="row">
             <div class="col-sm-12">
                 <div class="top-banner-wrapper">
-                    <a href="#"><img src="{{ asset('frontend/assets/images/mega-menu/2.jpg') }}"
-                            class="img-fluid blur-up lazyload" alt=""></a>
+                    <a href="#">
+                        <img src="{{ asset('frontend/assets/images/mega-menu/2.jpg') }}"
+                            class="img-fluid blur-up lazyload" alt="">
+                        </a>
                     <div class="top-banner-content small-section">
                         <h4>BIGGEST DEALS ON TOP BRANDS</h4>
                         <p>The trick to choosing the best wear for yourself is to keep in mind your
@@ -138,15 +140,33 @@
                             <div class="product-box">
 
                                 <div class="img-wrapper">
-                                    <div class="front">
-                                        <a href="#"><img src="{{ asset('frontend/assets/images/pro3/35.jpg') }}"
-                                        class="img-fluid blur-up lazyload bg-img" alt=""></a>
-                                    </div>
+                                    @if ( $thumbNails = App\Models\ProductImage::where('product_id', $product->id)->first() )
+                                        <div class="front">
+                                            <a href="#">
+                                                <img src="{{ asset('uploads/products/'. $thumbNails->name) }}" class="img-fluid blur-up lazyload bg-img" alt="">
+                                            </a>
+                                        </div>
 
-                                    <div class="back">
-                                        <a href="#"><img src="{{ asset('frontend/assets/images/pro3/36.jpg') }}"
-                                        class="img-fluid blur-up lazyload bg-img" alt=""></a>
-                                    </div>
+                                        <div class="back">
+                                            <a href="#">
+                                                <img src="{{ asset('uploads/products/'. $thumbNails->name) }}" class="img-fluid blur-up lazyload bg-img" alt="">
+                                            </a>
+                                        </div>
+
+                                    @else
+                                        <div class="front">
+                                            <a href="#">
+                                                <img src="{{ asset('frontend/assets/images/pro3/35.jpg') }}" class="img-fluid blur-up lazyload bg-img" alt="">
+                                            </a>
+                                        </div>
+
+                                        <div class="back">
+                                            <a href="#">
+                                                <img src="{{ asset('frontend/assets/images/pro3/35.jpg') }}" class="img-fluid blur-up lazyload bg-img" alt="">
+                                            </a>
+                                        </div>
+                                    @endif
+                                    
 
                                     <div class="cart-info cart-wrap">
                                         <button data-bs-toggle="modal" data-bs-target="#addtocart" title="Add to cart">

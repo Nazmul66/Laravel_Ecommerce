@@ -9,7 +9,10 @@ use Illuminate\Support\Str;
 use App\Models\Category;
 use App\Models\Brand;
 use App\Models\Product;
+use App\Models\ProductImage;
 use App\Models\SubCategory;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver;
 
 
 class ProductController extends Controller
@@ -19,10 +22,10 @@ class ProductController extends Controller
      */
     public function manage()
     {
-        $brands      = Brand::orderBy('name', 'ASC')->where('status', '1')->get();
-        $categories  = Category::orderBy('name', 'ASC')->where('status', '1')->get();
-        $subCats     = SubCategory::orderBy('name', 'ASC')->where('status', '1')->get();
-        $products    = Product::orderBy('title', 'ASC')->where('status', '1')->get();
+        $brands         = Brand::orderBy('name', 'ASC')->where('status', '1')->get();
+        $categories     = Category::orderBy('name', 'ASC')->where('status', '1')->get();
+        $subCats        = SubCategory::orderBy('name', 'ASC')->where('status', '1')->get();
+        $products       = Product::orderBy('title', 'ASC')->where('status', '1')->get();
         return view('backend.pages.product.manage', compact('products','subCats', 'brands', 'categories'));
     }
 
@@ -88,8 +91,58 @@ class ProductController extends Controller
         $product->tags              = $request->tags;
 
         // dd($product);
-
         $product->save();
+
+        if( $request->file('image') ){
+
+            $productImg = new ProductImage();
+
+            $manager = new ImageManager(new Driver());
+            $image = $request->file('image');
+            $img = $manager->read($request->file('image'));
+            
+            // create images name
+            $images = time() . "-thumbnail-." . $image->getClientOriginalExtension();
+ 
+            $img->resize(80,80);
+ 
+            $location = public_path("uploads/products/" . $images);
+ 
+            $img->toJpeg()->save($location);
+ 
+            $productImg->product_id    = $product->id;
+            $productImg->name          = $images;
+            // dd($productImg);
+
+            $productImg->save();
+         }
+
+
+         if( count( $request->file('multipleImage') ) > 0 ){
+
+             foreach ( $request->file('multipleImage') as $image ) {
+                $productImg = new ProductImage();
+
+                $manager = new ImageManager(new Driver());
+                $img = $manager->read($image);
+                
+                // create images name
+                $images = rand(10, 9999999999) . "-thumbnail-." . $image->getClientOriginalExtension();
+     
+                $img->resize(80,80);
+     
+                $location = public_path("uploads/products/" . $images);
+     
+                $img->toJpeg()->save($location);
+     
+                $productImg->product_id    = $product->id;
+                $productImg->name          = $images;
+                // dd($productImg);
+    
+                $productImg->save();
+             }
+         }
+
 
         // 1st way flash msg show 
         // session::flash('alert-type', 'success');
@@ -171,6 +224,43 @@ class ProductController extends Controller
 
      return redirect()->route("product.manage")->with($notification);
 
+    }
+
+    public function updateImages(Request $request, string $id)
+    {
+        $productImage = ProductImage::find($id);
+
+        if( !is_null( $productImage ) ){
+
+            if( $request->image ){
+
+                if( file_exists("uploads/products/" . $productImage->name ) == ""){
+                    unlink("uploads/products/" . $productImage->name );
+                }
+                else if( file_exists("uploads/products/" . $productImage->name ) ){
+                    unlink("uploads/products/" . $productImage->name );
+                }
+
+                $manager = new ImageManager(new Driver());
+                $image = $request->file('image');
+                $img = $manager->read($request->file('image'));
+                
+                // create images name
+                $images = rand(0, 999999999) . "-thumbnail-." . $image->getClientOriginalExtension();
+     
+                $img->resize(80,80);
+     
+                $location = public_path("uploads/products/" . $images);
+     
+                $img->toJpeg()->save($location);
+     
+                $productImage->name = $images;
+            }
+            
+                $productImage->save();
+
+                return redirect()->back();
+        }
     }
 
     public function trashManager()

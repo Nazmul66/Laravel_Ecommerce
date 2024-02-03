@@ -20,7 +20,7 @@
 
           @include('backend.includes.message')
           
-          <div class="form-body mt-4">
+        <div class="form-body mt-4">
             <form method="post" action="{{ route('product.update', $product->id) }}" enctype="multipart/form-data">
               <div class="row">
 
@@ -155,6 +155,47 @@
             </form>
               <!--end row-->
       </div>
+
+       <div class="row border border-3 p-4 rounded mt-3">
+          <div class="col-lg-12">
+                <div class="alert alert-info mb-3" role="alert">
+                  Update Images
+                </div>
+                <table class="table mb-0">
+                    <thead>
+                        <tr>
+                            <th scope="col">Sl.</th>
+                            <th scope="col">Product Image</th> 
+                            <th scope="col">Image Form</th> 
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+
+
+                    <tbody>
+                      @php $sl = 1; @endphp
+                      @foreach ( App\Models\ProductImage::where('product_id', $product->id)->get() as $PrdImg )
+                          <tr>
+                            <form method="post" action="{{ route('product.updateImages', $PrdImg->id) }}" enctype="multipart/form-data">
+                              @csrf
+                              <td>{{ $sl }}</td>
+                              <td>
+                                  <img src="{{ asset('uploads/products/' . $PrdImg->name) }}" alt="">
+                              </td>
+                              <td>
+                                  <input type="file" name="image" value="{{ $PrdImg->name }}" class="form-control">
+                              </td>
+                              <td>
+                                 <input type="submit" class="btn btn-primary" value="Update" />
+                              </td>
+                            </form>
+                            </tr>
+                        @php $sl++; @endphp
+                      @endforeach
+                    </tbody>
+                </table>
+          </div>
+       </div>
     </div>
   </div>
 </div>

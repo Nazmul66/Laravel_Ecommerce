@@ -51,7 +51,24 @@
                               <p>Supported formates: JPEG, PNG, JPG</p>
                               <figcaption class="file_name d-none" ></figcaption>
                           </label>
-                          <input type="file" accept=".jpg, .png, .jpeg" class="d-none" id="fileUploader">
+                          <input type="file" name="image" accept=".jpg, .png, .jpeg" class="d-none" id="fileUploader">
+                        </div>
+
+                        <div class="border border-2 p-4 rounded">
+                              <div class="mb-3">
+                                <label for="formFileMultiple" class="form-label">Product image upload 1</label>
+                                <input class="form-control" name="multipleImage[]" type="file" id="formFileMultiple" accept=".jpg, .png, .jpeg" multiple>
+                              </div>
+
+                              <div class="mb-3">
+                                <label for="formFileMultiple" class="form-label">Product image upload 2</label>
+                                <input class="form-control" name="multipleImage[]" type="file" id="formFileMultiple" accept=".jpg, .png, .jpeg" multiple>
+                              </div>
+
+                              <div class="mb-3">
+                                <label for="formFileMultiple" class="form-label">Product image upload 3</label>
+                                <input class="form-control" name="multipleImage[]" type="file" id="formFileMultiple" accept=".jpg, .png, .jpeg" multiple>
+                              </div>
                         </div>
                     </div>
                   </div>
@@ -182,7 +199,7 @@ fileUploader.addEventListener('change', (e) => {
         if(categoryId != 0 && categoryId != ""){
           $.get("http://127.0.0.1:8000/api/get-subCat/" + categoryId, function(data){
               var dataElement = JSON.parse(data);
-              console.log(dataElement);
+              // console.log(dataElement);
 
               if( dataElement.length >= 1 ){
                   dataElement.forEach(function( element ){
